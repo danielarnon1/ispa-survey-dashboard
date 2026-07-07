@@ -5,7 +5,7 @@ Israeli-Palestinian conflict — POL 441 (Fall 2021, 2022, 2023, 2025) and
 POL 416 (Spring 2023, 2024). Each course ran three survey waves per term
 (entry, mid-semester, end); Survey I also collected demographics.
 
-**Live dashboard:** _(add your GitHub Pages URL here once enabled — see below)_
+**Live dashboard:** https://danielarnon1.github.io/ispa-survey-dashboard/
 
 ## What's in the dashboard
 
@@ -44,7 +44,6 @@ local copy of the raw survey export CSVs (point `survey_dir` in
 `01_parse.R` at them — they're not included here). Requires R with
 `dplyr`, `readxl`, `jsonlite`, and `tidytext`.
 
-## Hosting on GitHub Pages
+## Hosting
 
-Settings → Pages → Deploy from branch → `main` / `(root)`. The dashboard
-will then be live at `https://<username>.github.io/<repo>/`.
+Served via GitHub Pages from the `main` branch root.
