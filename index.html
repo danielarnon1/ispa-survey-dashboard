@@ -1,0 +1,666 @@
+<title>ISPA Conflict Class Surveys — Opinion Change Dashboard</title>
+<style>
+  .viz-root {
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --blue:           #2a78d6;
+    --red:            #e34948;
+    --neutral-mid:    #f0efec;
+    --cat-1: #2a78d6; --cat-2: #1baf7a; --cat-3: #eda100; --cat-4: #008300;
+    --cat-5: #4a3aa7; --cat-6: #e34948; --cat-7: #e87ba4; --cat-8: #eb6834;
+  }
+  @media (prefers-color-scheme: dark) {
+    .viz-root {
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --blue:           #3987e5;
+      --red:            #e66767;
+      --neutral-mid:    #383835;
+      --cat-1: #3987e5; --cat-2: #199e70; --cat-3: #c98500; --cat-4: #008300;
+      --cat-5: #9085e9; --cat-6: #e66767; --cat-7: #d55181; --cat-8: #d95926;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    --surface-1: #1a1a19; --page:#0d0d0d; --text-primary:#ffffff; --text-secondary:#c3c2b7;
+    --text-muted:#898781; --gridline:#2c2c2a; --baseline:#383835; --border: rgba(255,255,255,0.10);
+    --blue:#3987e5; --red:#e66767; --neutral-mid:#383835;
+    --cat-1: #3987e5; --cat-2: #199e70; --cat-3: #c98500; --cat-4: #008300;
+    --cat-5: #9085e9; --cat-6: #e66767; --cat-7: #d55181; --cat-8: #d95926;
+  }
+  :root[data-theme="light"] .viz-root {
+    --surface-1: #fcfcfb; --page:#f9f9f7; --text-primary:#0b0b0b; --text-secondary:#52514e;
+    --text-muted:#898781; --gridline:#e1e0d9; --baseline:#c3c2b7; --border: rgba(11,11,11,0.10);
+    --blue:#2a78d6; --red:#e34948; --neutral-mid:#f0efec;
+    --cat-1: #2a78d6; --cat-2: #1baf7a; --cat-3: #eda100; --cat-4: #008300;
+    --cat-5: #4a3aa7; --cat-6: #e34948; --cat-7: #e87ba4; --cat-8: #eb6834;
+  }
+
+  * { box-sizing: border-box; }
+  .viz-root {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    padding: 24px 20px 60px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 21px; font-weight: 650; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13.5px; margin: 0 0 20px; line-height: 1.5; }
+  .controls {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 18px;
+  }
+  .control-group { display: flex; flex-direction: column; gap: 4px; }
+  .control-group label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); font-weight: 600; }
+  select {
+    font-family: inherit; font-size: 13.5px; padding: 7px 10px; border-radius: 7px;
+    border: 1px solid var(--border); background: var(--page); color: var(--text-primary);
+    min-width: 260px;
+  }
+  .qmeta { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5; }
+  .qmeta b { color: var(--text-primary); }
+  .section-title {
+    font-size: 15px; font-weight: 650; margin: 32px 0 6px;
+    padding-top: 24px; border-top: 1px solid var(--gridline);
+  }
+  .findings-box {
+    margin-top: 16px; background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+  }
+  .findings-box h3 { font-size: 13px; margin: 0 0 8px; color: var(--text-primary); }
+  .findings-box .sig { font-weight: 650; }
+  .findings-box .sig.yes { color: var(--red); }
+  .findings-box table.data-table { margin-top: 10px; }
+  .panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 880px) { .panels { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px 16px;
+  }
+  .panel h2 { font-size: 13.5px; font-weight: 650; margin: 0 0 2px; }
+  .panel .n-note { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+  .wave-row { margin-bottom: 12px; }
+  .wave-row:last-child { margin-bottom: 0; }
+  .wave-label-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 4px; }
+  .wave-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+  .wave-n { font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .bar {
+    display: flex; height: 22px; border-radius: 4px; overflow: hidden; gap: 2px;
+    background: var(--gridline);
+  }
+  .seg {
+    height: 100%; position: relative; cursor: default;
+    display: flex; align-items: center; justify-content: center;
+    transition: filter .12s ease;
+  }
+  .seg:hover { filter: brightness(1.12); }
+  .seg .seg-label {
+    font-size: 10px; font-weight: 600; color: #fff; text-shadow: 0 0 2px rgba(0,0,0,.35);
+    white-space: nowrap; padding: 0 3px; pointer-events: none;
+  }
+  .seg .seg-label.dark-text { color: #0b0b0b; text-shadow: none; }
+  .tooltip {
+    position: fixed; pointer-events: none; z-index: 50;
+    background: var(--text-primary); color: var(--surface-1);
+    font-size: 11.5px; padding: 6px 9px; border-radius: 6px; line-height: 1.4;
+    max-width: 260px; opacity: 0; transition: opacity .08s ease;
+  }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 14px 0 16px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-secondary); }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+  .delta-row {
+    margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--gridline);
+    font-size: 11.5px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;
+  }
+  .delta-badge { font-weight: 650; font-variant-numeric: tabular-nums; }
+  .delta-up { color: var(--blue); }
+  .delta-down { color: var(--red); }
+  .cloud {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 8px;
+    padding: 8px 2px 4px; min-height: 40px;
+  }
+  .cloud-word { line-height: 1.15; white-space: nowrap; cursor: default; }
+  .cloud-empty { font-size: 11px; color: var(--text-muted); padding: 8px 2px; }
+  .sentiment-caption {
+    font-size: 10.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;
+  }
+  .toggle-table { margin-top: 20px; }
+  .toggle-table summary {
+    cursor: pointer; font-size: 12.5px; color: var(--text-secondary); font-weight: 600;
+    padding: 6px 0;
+  }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 8px; }
+  table.data-table th, table.data-table td {
+    text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--gridline);
+    font-variant-numeric: tabular-nums;
+  }
+  table.data-table th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 10px; letter-spacing: .03em; }
+  .cat-groups { font-size: 11px; color: var(--text-muted); }
+  footer.note {
+    margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--gridline);
+    font-size: 11.5px; color: var(--text-muted); line-height: 1.6;
+  }
+</style>
+
+<div class="viz-root" id="root">
+  <h1>ISPA Conflict Class Surveys — Opinion Change Over the Semester</h1>
+  <p class="subtitle">
+    Distribution of student responses to Israeli-Palestinian conflict opinion questions,
+    compared across Survey I (start), II (mid-semester), and III (end). POL 441
+    (Fall 2021/22/23/25) and POL 416 (Spring 2023/24) shown combined and separately.
+    Panel data: <span id="totalRespondents"></span> unique respondents across
+    <span id="totalEnrollments"></span> course enrollments.
+  </p>
+
+  <div class="controls">
+    <div class="control-group">
+      <label for="qSelect">Opinion question</label>
+      <select id="qSelect"></select>
+    </div>
+  </div>
+
+  <div class="qmeta" id="qMeta"></div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="panels" id="panels"></div>
+
+  <h2 class="section-title">Second cut: before vs. after Oct 7, 2023</h2>
+  <p class="qmeta">
+    Same question, spliced a different way — by <b>when the class was taught</b>
+    rather than which class. "Before" pools Fall 2021, Fall 2022, Spring 2023
+    and Fall 2023 (Fall 23 was already underway when the war broke out, so it's
+    grouped with the earlier terms per instructor call); "after" pools Spring
+    2024 and Fall 2025. Same wave-by-wave bars as above, just regrouped.
+  </p>
+  <div class="panels" id="panelsEra" style="grid-template-columns: repeat(2, 1fr);"></div>
+
+  <div id="findingsBox" class="findings-box"></div>
+
+  <details class="toggle-table">
+    <summary>Show data table (counts &amp; percentages, all groupings)</summary>
+    <div id="tableWrap"></div>
+  </details>
+
+  <footer class="note">
+    Color: for ordered (Likert-style) questions, blue shades = the more
+    supportive / informed / agreeing end of the scale as originally listed on the
+    survey; red shades = the more opposing / disagreeing / uninformed end; gray = neutral/middle.
+    For unordered questions (info sources, resolution preference, yes/no) each
+    category gets its own fixed color. Sample sizes (n) vary by wave because not
+    every student completed every survey (attrition/late add). "REPEAT" category
+    questions (Zionism definitions, aid-conditioning) were only asked in Survey I
+    for the Fall 2021 term — elsewhere they appear in Surveys II &amp; III only, so
+    their Wave I bar reflects Fall 2021 alone (small n).
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script id="dashboard-data" type="application/json">
+{"questions":{"O_APARTHEID":{"label":"Agree: Israel is an apartheid state","category":"CORE","ordinal":true,"levels":["Strongly agree","Somewhat agree","Neutral","Somewhat disagree","Strongly disagree"],"data":{"ALL":{"I":{"n":123,"counts":{"Strongly agree":16,"Somewhat agree":39,"Neutral":45,"Somewhat disagree":13,"Strongly disagree":12},"mean_level":2.728},"II":{"n":111,"counts":{"Strongly agree":11,"Somewhat agree":54,"Neutral":26,"Somewhat disagree":12,"Strongly disagree":9},"mean_level":2.589},"III":{"n":92,"counts":{"Strongly agree":14,"Somewhat agree":37,"Neutral":22,"Somewhat disagree":12,"Strongly disagree":7},"mean_level":2.576}},"POL441":{"I":{"n":76,"counts":{"Strongly agree":10,"Somewhat agree":22,"Neutral":29,"Somewhat disagree":9,"Strongly disagree":8},"mean_level":2.782},"II":{"n":67,"counts":{"Strongly agree":3,"Somewhat agree":31,"Neutral":21,"Somewhat disagree":6,"Strongly disagree":7},"mean_level":2.75},"III":{"n":48,"counts":{"Strongly agree":4,"Somewhat agree":20,"Neutral":13,"Somewhat disagree":6,"Strongly disagree":5},"mean_level":2.75}},"POL416":{"I":{"n":47,"counts":{"Strongly agree":6,"Somewhat agree":17,"Neutral":16,"Somewhat disagree":4,"Strongly disagree":4},"mean_level":2.638},"II":{"n":44,"counts":{"Strongly agree":8,"Somewhat agree":23,"Neutral":5,"Somewhat disagree":6,"Strongly disagree":2},"mean_level":2.341},"III":{"n":44,"counts":{"Strongly agree":10,"Somewhat agree":17,"Neutral":9,"Somewhat disagree":6,"Strongly disagree":2},"mean_level":2.386}},"PRE_OCT7":{"I":{"n":64,"counts":{"Strongly agree":7,"Somewhat agree":23,"Neutral":23,"Somewhat disagree":7,"Strongly disagree":4},"mean_level":2.656},"II":{"n":58,"counts":{"Strongly agree":5,"Somewhat agree":29,"Neutral":17,"Somewhat disagree":4,"Strongly disagree":3},"mean_level":2.5},"III":{"n":43,"counts":{"Strongly agree":5,"Somewhat agree":20,"Neutral":10,"Somewhat disagree":7,"Strongly disagree":1},"mean_level":2.512}},"POST_OCT7":{"I":{"n":59,"counts":{"Strongly agree":9,"Somewhat agree":16,"Neutral":22,"Somewhat disagree":6,"Strongly disagree":8},"mean_level":2.803},"II":{"n":53,"counts":{"Strongly agree":6,"Somewhat agree":25,"Neutral":9,"Somewhat disagree":8,"Strongly disagree":6},"mean_level":2.685},"III":{"n":49,"counts":{"Strongly agree":9,"Somewhat agree":17,"Neutral":12,"Somewhat disagree":5,"Strongly disagree":6},"mean_level":2.633}}},"era_stats":{"pre_n":64,"post_n":59,"pre_mean":2.656,"post_mean":2.803,"delta":0.147,"delta_pct_of_scale":3.7,"p_value":0.3702}},"O_CONCERN_ANTISEMITISM":{"label":"Concern about antisemitism in US","category":"CORE","ordinal":true,"levels":["Very concerned","Somewhat concerned","Neutral","Not too concerned","Not at all concerned"],"data":{"ALL":{"I":{"n":121,"counts":{"Very concerned":46,"Somewhat concerned":49,"Neutral":13,"Not too concerned":9,"Not at all concerned":4},"mean_level":1.975},"II":{"n":110,"counts":{"Very concerned":33,"Somewhat concerned":52,"Neutral":20,"Not too concerned":3,"Not at all concerned":2},"mean_level":1.991},"III":{"n":95,"counts":{"Very concerned":32,"Somewhat concerned":46,"Neutral":14,"Not too concerned":2,"Not at all concerned":3},"mean_level":1.948}},"POL441":{"I":{"n":75,"counts":{"Very concerned":28,"Somewhat concerned":31,"Neutral":7,"Not too concerned":6,"Not at all concerned":3},"mean_level":2},"II":{"n":66,"counts":{"Very concerned":23,"Somewhat concerned":30,"Neutral":9,"Not too concerned":2,"Not at all concerned":2},"mean_level":1.939},"III":{"n":51,"counts":{"Very concerned":20,"Somewhat concerned":22,"Neutral":6,"Not too concerned":2,"Not at all concerned":3},"mean_level":1.981}},"POL416":{"I":{"n":46,"counts":{"Very concerned":18,"Somewhat concerned":18,"Neutral":6,"Not too concerned":3,"Not at all concerned":1},"mean_level":1.935},"II":{"n":44,"counts":{"Very concerned":10,"Somewhat concerned":22,"Neutral":11,"Not too concerned":1},"mean_level":2.068},"III":{"n":44,"counts":{"Very concerned":12,"Somewhat concerned":24,"Neutral":8},"mean_level":1.909}},"PRE_OCT7":{"I":{"n":64,"counts":{"Very concerned":22,"Somewhat concerned":28,"Neutral":5,"Not too concerned":6,"Not at all concerned":3},"mean_level":2.062},"II":{"n":58,"counts":{"Very concerned":18,"Somewhat concerned":27,"Neutral":9,"Not too concerned":2,"Not at all concerned":2},"mean_level":2.017},"III":{"n":43,"counts":{"Very concerned":12,"Somewhat concerned":20,"Neutral":7,"Not too concerned":2,"Not at all concerned":2},"mean_level":2.116}},"POST_OCT7":{"I":{"n":57,"counts":{"Very concerned":24,"Somewhat concerned":21,"Neutral":8,"Not too concerned":3,"Not at all concerned":1},"mean_level":1.877},"II":{"n":52,"counts":{"Very concerned":15,"Somewhat concerned":25,"Neutral":11,"Not too concerned":1},"mean_level":1.962},"III":{"n":52,"counts":{"Very concerned":20,"Somewhat concerned":26,"Neutral":7,"Not at all concerned":1},"mean_level":1.815}}},"era_stats":{"pre_n":64,"post_n":57,"pre_mean":2.062,"post_mean":1.877,"delta":-0.185,"delta_pct_of_scale":-4.6,"p_value":0.3282}},"O_CONCERN_ISLAMOPHOBIA":{"label":"Concern about Islamophobia in US","category":"CORE","ordinal":true,"levels":["Very concerned","Somewhat concerned","Neutral","Not too concerned","Not at all concerned"],"data":{"ALL":{"I":{"n":121,"counts":{"Very concerned":59,"Somewhat concerned":41,"Neutral":12,"Not too concerned":5,"Not at all concerned":4},"mean_level":1.793},"II":{"n":111,"counts":{"Very concerned":48,"Somewhat concerned":45,"Neutral":12,"Not too concerned":6,"Not at all concerned":1},"mean_level":1.812},"III":{"n":95,"counts":{"Very concerned":39,"Somewhat concerned":35,"Neutral":15,"Not too concerned":6,"Not at all concerned":2},"mean_level":1.938}},"POL441":{"I":{"n":75,"counts":{"Very concerned":37,"Somewhat concerned":25,"Neutral":7,"Not too concerned":3,"Not at all concerned":3},"mean_level":1.8},"II":{"n":67,"counts":{"Very concerned":28,"Somewhat concerned":27,"Neutral":7,"Not too concerned":5,"Not at all concerned":1},"mean_level":1.882},"III":{"n":51,"counts":{"Very concerned":21,"Somewhat concerned":20,"Neutral":6,"Not too concerned":4,"Not at all concerned":2},"mean_level":1.981}},"POL416":{"I":{"n":46,"counts":{"Very concerned":22,"Somewhat concerned":16,"Neutral":5,"Not too concerned":2,"Not at all concerned":1},"mean_level":1.783},"II":{"n":44,"counts":{"Very concerned":20,"Somewhat concerned":18,"Neutral":5,"Not too concerned":1},"mean_level":1.705},"III":{"n":44,"counts":{"Very concerned":18,"Somewhat concerned":15,"Neutral":9,"Not too concerned":2},"mean_level":1.886}},"PRE_OCT7":{"I":{"n":64,"counts":{"Very concerned":33,"Somewhat concerned":21,"Neutral":5,"Not too concerned":2,"Not at all concerned":3},"mean_level":1.766},"II":{"n":58,"counts":{"Very concerned":28,"Somewhat concerned":23,"Neutral":3,"Not too concerned":4},"mean_level":1.707},"III":{"n":43,"counts":{"Very concerned":20,"Somewhat concerned":14,"Neutral":5,"Not too concerned":2,"Not at all concerned":2},"mean_level":1.884}},"POST_OCT7":{"I":{"n":57,"counts":{"Very concerned":26,"Somewhat concerned":20,"Neutral":7,"Not too concerned":3,"Not at all concerned":1},"mean_level":1.825},"II":{"n":53,"counts":{"Very concerned":20,"Somewhat concerned":22,"Neutral":9,"Not too concerned":2,"Not at all concerned":1},"mean_level":1.926},"III":{"n":52,"counts":{"Very concerned":19,"Somewhat concerned":21,"Neutral":10,"Not too concerned":4},"mean_level":1.981}}},"era_stats":{"pre_n":64,"post_n":57,"pre_mean":1.766,"post_mean":1.825,"delta":0.059,"delta_pct_of_scale":1.5,"p_value":0.7484}},"O_GENOCIDE":{"label":"Agree: Israel is committing genocide against Palestinians","category":"CORE","ordinal":true,"levels":["Strongly agree","Somewhat agree","Neutral","Somewhat disagree","Strongly disagree"],"data":{"ALL":{"I":{"n":124,"counts":{"Strongly agree":25,"Somewhat agree":35,"Neutral":26,"Somewhat disagree":16,"Strongly disagree":24},"mean_level":2.833},"II":{"n":111,"counts":{"Strongly agree":26,"Somewhat agree":31,"Neutral":20,"Somewhat disagree":22,"Strongly disagree":13},"mean_level":2.688},"III":{"n":94,"counts":{"Strongly agree":20,"Somewhat agree":30,"Neutral":18,"Somewhat disagree":13,"Strongly disagree":14},"mean_level":2.695}},"POL441":{"I":{"n":76,"counts":{"Strongly agree":11,"Somewhat agree":22,"Neutral":18,"Somewhat disagree":11,"Strongly disagree":15},"mean_level":2.961},"II":{"n":67,"counts":{"Strongly agree":13,"Somewhat agree":17,"Neutral":13,"Somewhat disagree":15,"Strongly disagree":10},"mean_level":2.882},"III":{"n":50,"counts":{"Strongly agree":10,"Somewhat agree":14,"Neutral":8,"Somewhat disagree":7,"Strongly disagree":12},"mean_level":2.941}},"POL416":{"I":{"n":48,"counts":{"Strongly agree":14,"Somewhat agree":13,"Neutral":8,"Somewhat disagree":5,"Strongly disagree":9},"mean_level":2.633},"II":{"n":44,"counts":{"Strongly agree":13,"Somewhat agree":14,"Neutral":7,"Somewhat disagree":7,"Strongly disagree":3},"mean_level":2.386},"III":{"n":44,"counts":{"Strongly agree":10,"Somewhat agree":16,"Neutral":10,"Somewhat disagree":6,"Strongly disagree":2},"mean_level":2.409}},"PRE_OCT7":{"I":{"n":66,"counts":{"Strongly agree":5,"Somewhat agree":17,"Neutral":20,"Somewhat disagree":11,"Strongly disagree":14},"mean_level":3.179},"II":{"n":59,"counts":{"Strongly agree":8,"Somewhat agree":15,"Neutral":16,"Somewhat disagree":14,"Strongly disagree":7},"mean_level":2.95},"III":{"n":43,"counts":{"Strongly agree":6,"Somewhat agree":10,"Neutral":11,"Somewhat disagree":6,"Strongly disagree":10},"mean_level":3.093}},"POST_OCT7":{"I":{"n":58,"counts":{"Strongly agree":20,"Somewhat agree":18,"Neutral":6,"Somewhat disagree":5,"Strongly disagree":10},"mean_level":2.441},"II":{"n":52,"counts":{"Strongly agree":18,"Somewhat agree":16,"Neutral":4,"Somewhat disagree":8,"Strongly disagree":6},"mean_level":2.385},"III":{"n":51,"counts":{"Strongly agree":14,"Somewhat agree":20,"Neutral":7,"Somewhat disagree":7,"Strongly disagree":4},"mean_level":2.365}}},"era_stats":{"pre_n":66,"post_n":58,"pre_mean":3.179,"post_mean":2.441,"delta":-0.738,"delta_pct_of_scale":-18.4,"p_value":0.0086}},"O_INFO_SOURCES":{"label":"Main info sources on ISPA conflict (multi-select)","category":"CORE","ordinal":false,"levels":[],"data":{"ALL":{"I":{"n":122,"counts":{"News Media (print or online)":58,"Social media":40,"Television (news, shows, documentaries)":17,"Friends and relatives":8},"mean_level":null},"II":{"n":111,"counts":{"News Media (print or online)":55,"Social media":37,"Television (news, shows, documentaries)":12,"Friends and relatives":8},"mean_level":null},"III":{"n":95,"counts":{"News Media (print or online)":45,"Social media":38,"Television (news, shows, documentaries)":9,"Friends and relatives":5},"mean_level":null}},"POL441":{"I":{"n":75,"counts":{"News Media (print or online)":36,"Social media":23,"Television (news, shows, documentaries)":11,"Friends and relatives":5},"mean_level":null},"II":{"n":67,"counts":{"News Media (print or online)":35,"Social media":21,"Television (news, shows, documentaries)":7,"Friends and relatives":5},"mean_level":null},"III":{"n":51,"counts":{"News Media (print or online)":25,"Social media":20,"Television (news, shows, documentaries)":6,"Friends and relatives":2},"mean_level":null}},"POL416":{"I":{"n":47,"counts":{"News Media (print or online)":22,"Social media":17,"Television (news, shows, documentaries)":6,"Friends and relatives":3},"mean_level":null},"II":{"n":44,"counts":{"News Media (print or online)":20,"Social media":16,"Television (news, shows, documentaries)":5,"Friends and relatives":3},"mean_level":null},"III":{"n":44,"counts":{"News Media (print or online)":20,"Social media":18,"Friends and relatives":3,"Television (news, shows, documentaries)":3},"mean_level":null}},"PRE_OCT7":{"I":{"n":65,"counts":{"News Media (print or online)":33,"Social media":19,"Television (news, shows, documentaries)":10,"Friends and relatives":4},"mean_level":null},"II":{"n":59,"counts":{"News Media (print or online)":28,"Social media":18,"Television (news, shows, documentaries)":8,"Friends and relatives":6},"mean_level":null},"III":{"n":44,"counts":{"Social media":19,"News Media (print or online)":18,"Friends and relatives":4,"Television (news, shows, documentaries)":4},"mean_level":null}},"POST_OCT7":{"I":{"n":57,"counts":{"News Media (print or online)":25,"Social media":21,"Television (news, shows, documentaries)":7,"Friends and relatives":4},"mean_level":null},"II":{"n":52,"counts":{"News Media (print or online)":27,"Social media":19,"Television (news, shows, documentaries)":4,"Friends and relatives":2},"mean_level":null},"III":{"n":51,"counts":{"News Media (print or online)":27,"Social media":19,"Television (news, shows, documentaries)":5,"Friends and relatives":1},"mean_level":null}}},"era_stats":{"pre_n":66,"post_n":57,"pct_point_shifts":{"News Media (print or online)":-6.1,"Social media":8.1,"Television (news, shows, documentaries)":-2.9,"Friends and relatives":1}}},"O_INFORMED":{"label":"Feel informed about ISPA conflict","category":"CORE","ordinal":true,"levels":["Very informed","Informed","Somewhat informed","Somewhat uninformed","Uninformed","Very uninformed"],"data":{"ALL":{"I":{"n":124,"counts":{"Very informed":8,"Informed":31,"Somewhat informed":51,"Somewhat uninformed":17,"Uninformed":10,"Very uninformed":10},"mean_level":3.157},"II":{"n":112,"counts":{"Very informed":10,"Informed":70,"Somewhat informed":34},"mean_level":2.211},"III":{"n":96,"counts":{"Very informed":33,"Informed":60,"Somewhat informed":5,"Somewhat uninformed":1},"mean_level":1.737}},"POL441":{"I":{"n":76,"counts":{"Very informed":5,"Informed":15,"Somewhat informed":34,"Somewhat uninformed":9,"Uninformed":7,"Very uninformed":7},"mean_level":3.247},"II":{"n":67,"counts":{"Very informed":7,"Informed":43,"Somewhat informed":18},"mean_level":2.162},"III":{"n":52,"counts":{"Very informed":23,"Informed":31,"Somewhat informed":1},"mean_level":1.6}},"POL416":{"I":{"n":48,"counts":{"Very informed":3,"Informed":16,"Somewhat informed":17,"Somewhat uninformed":8,"Uninformed":3,"Very uninformed":3},"mean_level":3.02},"II":{"n":45,"counts":{"Very informed":3,"Informed":27,"Somewhat informed":16},"mean_level":2.283},"III":{"n":44,"counts":{"Very informed":10,"Informed":29,"Somewhat informed":4,"Somewhat uninformed":1},"mean_level":1.909}},"PRE_OCT7":{"I":{"n":66,"counts":{"Very informed":4,"Informed":16,"Somewhat informed":23,"Somewhat uninformed":10,"Uninformed":6,"Very uninformed":9},"mean_level":3.368},"II":{"n":58,"counts":{"Very informed":5,"Informed":38,"Somewhat informed":15},"mean_level":2.172},"III":{"n":43,"counts":{"Very informed":13,"Informed":28,"Somewhat informed":2},"mean_level":1.744}},"POST_OCT7":{"I":{"n":58,"counts":{"Very informed":4,"Informed":15,"Somewhat informed":28,"Somewhat uninformed":7,"Uninformed":4,"Very uninformed":1},"mean_level":2.915},"II":{"n":54,"counts":{"Very informed":5,"Informed":32,"Somewhat informed":19},"mean_level":2.25},"III":{"n":53,"counts":{"Very informed":20,"Informed":32,"Somewhat informed":3,"Somewhat uninformed":1},"mean_level":1.732}}},"era_stats":{"pre_n":66,"post_n":58,"pre_mean":3.368,"post_mean":2.915,"delta":-0.453,"delta_pct_of_scale":-9.1,"p_value":0.0371}},"O_PROISRAEL_CRITIQUE":{"label":"Can be critical of Israeli govt and still pro-Israel","category":"CORE","ordinal":false,"levels":[],"data":{"ALL":{"I":{"n":121,"counts":{"Yes":108,"No":13},"mean_level":null},"II":{"n":110,"counts":{"Yes":101,"No":9},"mean_level":null},"III":{"n":93,"counts":{"Yes":86,"No":7},"mean_level":null}},"POL441":{"I":{"n":75,"counts":{"Yes":68,"No":7},"mean_level":null},"II":{"n":66,"counts":{"Yes":60,"No":6},"mean_level":null},"III":{"n":49,"counts":{"Yes":44,"No":5},"mean_level":null}},"POL416":{"I":{"n":46,"counts":{"Yes":40,"No":6},"mean_level":null},"II":{"n":44,"counts":{"Yes":41,"No":3},"mean_level":null},"III":{"n":44,"counts":{"Yes":42,"No":2},"mean_level":null}},"PRE_OCT7":{"I":{"n":64,"counts":{"Yes":58,"No":6},"mean_level":null},"II":{"n":58,"counts":{"Yes":55,"No":3},"mean_level":null},"III":{"n":43,"counts":{"Yes":40,"No":3},"mean_level":null}},"POST_OCT7":{"I":{"n":57,"counts":{"Yes":50,"No":7},"mean_level":null},"II":{"n":52,"counts":{"Yes":46,"No":6},"mean_level":null},"III":{"n":50,"counts":{"Yes":46,"No":4},"mean_level":null}}},"era_stats":{"pre_n":64,"post_n":57,"pct_point_shifts":{"Yes":-2.9,"No":2.9}}},"O_RACISM_SIMILAR":{"label":"Agree: Israel's treatment of Palestinians similar to US racism","category":"CORE","ordinal":true,"levels":["Strongly agree","Somewhat agree","Neutral","Somewhat disagree","Strongly disagree"],"data":{"ALL":{"I":{"n":126,"counts":{"Strongly agree":22,"Somewhat agree":37,"Neutral":28,"Somewhat disagree":24,"Strongly disagree":19},"mean_level":2.854},"II":{"n":112,"counts":{"Strongly agree":12,"Somewhat agree":48,"Neutral":16,"Somewhat disagree":24,"Strongly disagree":14},"mean_level":2.825},"III":{"n":94,"counts":{"Strongly agree":11,"Somewhat agree":48,"Neutral":11,"Somewhat disagree":16,"Strongly disagree":9},"mean_level":2.621}},"POL441":{"I":{"n":77,"counts":{"Strongly agree":12,"Somewhat agree":18,"Neutral":20,"Somewhat disagree":17,"Strongly disagree":12},"mean_level":2.987},"II":{"n":68,"counts":{"Strongly agree":6,"Somewhat agree":25,"Neutral":11,"Somewhat disagree":19,"Strongly disagree":9},"mean_level":3},"III":{"n":50,"counts":{"Strongly agree":6,"Somewhat agree":22,"Neutral":6,"Somewhat disagree":12,"Strongly disagree":5},"mean_level":2.765}},"POL416":{"I":{"n":49,"counts":{"Strongly agree":10,"Somewhat agree":19,"Neutral":8,"Somewhat disagree":7,"Strongly disagree":7},"mean_level":2.647},"II":{"n":44,"counts":{"Strongly agree":6,"Somewhat agree":23,"Neutral":5,"Somewhat disagree":5,"Strongly disagree":5},"mean_level":2.545},"III":{"n":44,"counts":{"Strongly agree":5,"Somewhat agree":26,"Neutral":5,"Somewhat disagree":4,"Strongly disagree":4},"mean_level":2.455}},"PRE_OCT7":{"I":{"n":67,"counts":{"Strongly agree":12,"Somewhat agree":20,"Neutral":16,"Somewhat disagree":13,"Strongly disagree":8},"mean_level":2.783},"II":{"n":58,"counts":{"Strongly agree":6,"Somewhat agree":24,"Neutral":9,"Somewhat disagree":13,"Strongly disagree":6},"mean_level":2.81},"III":{"n":43,"counts":{"Strongly agree":4,"Somewhat agree":23,"Neutral":4,"Somewhat disagree":9,"Strongly disagree":3},"mean_level":2.628}},"POST_OCT7":{"I":{"n":59,"counts":{"Strongly agree":10,"Somewhat agree":17,"Neutral":12,"Somewhat disagree":11,"Strongly disagree":11},"mean_level":2.934},"II":{"n":54,"counts":{"Strongly agree":6,"Somewhat agree":24,"Neutral":7,"Somewhat disagree":11,"Strongly disagree":8},"mean_level":2.839},"III":{"n":51,"counts":{"Strongly agree":7,"Somewhat agree":25,"Neutral":7,"Somewhat disagree":7,"Strongly disagree":6},"mean_level":2.615}}},"era_stats":{"pre_n":67,"post_n":59,"pre_mean":2.783,"post_mean":2.934,"delta":0.151,"delta_pct_of_scale":3.8,"p_value":0.7423}},"O_RESOLUTION":{"label":"Best resolution of ISPA conflict","category":"CORE","ordinal":false,"levels":[],"data":{"ALL":{"I":{"n":122,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":88,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":28,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":6},"mean_level":null},"II":{"n":112,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":73,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":36,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":5},"mean_level":null},"III":{"n":95,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":72,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":22,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":3},"mean_level":null}},"POL441":{"I":{"n":75,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":53,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":18,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":4},"mean_level":null},"II":{"n":68,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":42,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":24,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":4},"mean_level":null},"III":{"n":51,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":37,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":13,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":3},"mean_level":null}},"POL416":{"I":{"n":47,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":35,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":10,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":2},"mean_level":null},"II":{"n":44,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":31,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":12,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":1},"mean_level":null},"III":{"n":44,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":35,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":9},"mean_level":null}},"PRE_OCT7":{"I":{"n":65,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":45,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":17,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":3},"mean_level":null},"II":{"n":59,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":36,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":22,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":2},"mean_level":null},"III":{"n":43,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":31,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":12},"mean_level":null}},"POST_OCT7":{"I":{"n":57,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":43,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":11,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":3},"mean_level":null},"II":{"n":53,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":37,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":14,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":3},"mean_level":null},"III":{"n":52,"counts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":41,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":10,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":3},"mean_level":null}}},"era_stats":{"pre_n":65,"post_n":57,"pct_point_shifts":{"Establishing two separate states with their own separate governments –a Jewish State of Israel alongside an independent Palestinian State.":6.2,"Establishing one state that is neither Jewish nor Palestinian, and includes Israel, the West Bank, and Gaza under a single government elected by Israelis and Palestinians":-6.9,"Israeli annexation of the West Bank that establishes one state as the national homeland of the Jewish people, and allows Palestinians to vote for their municipal leaders but not vote for Israel's national government":0.6}}},"O_RIGHT_EXIST":{"label":"Agree: Israel doesn't have the right to exist","category":"CORE","ordinal":true,"levels":["Strongly agree","Somewhat agree","Neutral","Somewhat disagree","Strongly disagree"],"data":{"ALL":{"I":{"n":122,"counts":{"Strongly agree":3,"Somewhat agree":5,"Somewhat disagree":24,"Strongly disagree":61},"mean_level":4.452},"II":{"n":111,"counts":{"Strongly agree":2,"Somewhat agree":5,"Somewhat disagree":28,"Strongly disagree":63},"mean_level":4.48},"III":{"n":94,"counts":{"Strongly agree":3,"Somewhat agree":3,"Somewhat disagree":25,"Strongly disagree":50},"mean_level":4.432}},"POL441":{"I":{"n":76,"counts":{"Strongly agree":2,"Somewhat agree":3,"Somewhat disagree":17,"Strongly disagree":36},"mean_level":4.414},"II":{"n":67,"counts":{"Somewhat agree":4,"Somewhat disagree":15,"Strongly disagree":39},"mean_level":4.534},"III":{"n":50,"counts":{"Strongly agree":1,"Somewhat agree":2,"Somewhat disagree":14,"Strongly disagree":29},"mean_level":4.478}},"POL416":{"I":{"n":46,"counts":{"Strongly agree":1,"Somewhat agree":2,"Somewhat disagree":7,"Strongly disagree":25},"mean_level":4.514},"II":{"n":44,"counts":{"Strongly agree":2,"Somewhat agree":1,"Somewhat disagree":13,"Strongly disagree":24},"mean_level":4.4},"III":{"n":44,"counts":{"Strongly agree":2,"Somewhat agree":1,"Somewhat disagree":11,"Strongly disagree":21},"mean_level":4.371}},"PRE_OCT7":{"I":{"n":64,"counts":{"Strongly agree":3,"Somewhat agree":2,"Somewhat disagree":13,"Strongly disagree":29},"mean_level":4.34},"II":{"n":58,"counts":{"Strongly agree":1,"Somewhat agree":3,"Somewhat disagree":13,"Strongly disagree":33},"mean_level":4.48},"III":{"n":43,"counts":{"Strongly agree":2,"Somewhat agree":3,"Somewhat disagree":13,"Strongly disagree":21},"mean_level":4.231}},"POST_OCT7":{"I":{"n":58,"counts":{"Somewhat agree":3,"Somewhat disagree":11,"Strongly disagree":32},"mean_level":4.565},"II":{"n":53,"counts":{"Strongly agree":1,"Somewhat agree":2,"Somewhat disagree":15,"Strongly disagree":30},"mean_level":4.479},"III":{"n":51,"counts":{"Strongly agree":1,"Somewhat disagree":12,"Strongly disagree":29},"mean_level":4.619}}},"era_stats":{"pre_n":64,"post_n":58,"pre_mean":4.34,"post_mean":4.565,"delta":0.225,"delta_pct_of_scale":5.6,"p_value":0.1701}},"O_SUPPORT_ISRAEL":{"label":"US support for Israel should be","category":"CORE","ordinal":true,"levels":["Increased","Stay the same","Decreased"],"data":{"ALL":{"I":{"n":122,"counts":{"Increased":15,"Stay the same":49,"Decreased":60},"mean_level":2.363},"II":{"n":110,"counts":{"Increased":4,"Stay the same":51,"Decreased":55},"mean_level":2.464},"III":{"n":93,"counts":{"Increased":3,"Stay the same":40,"Decreased":50},"mean_level":2.505}},"POL441":{"I":{"n":75,"counts":{"Increased":6,"Stay the same":30,"Decreased":40},"mean_level":2.447},"II":{"n":66,"counts":{"Increased":3,"Stay the same":31,"Decreased":32},"mean_level":2.439},"III":{"n":49,"counts":{"Increased":2,"Stay the same":26,"Decreased":21},"mean_level":2.388}},"POL416":{"I":{"n":47,"counts":{"Increased":9,"Stay the same":19,"Decreased":20},"mean_level":2.229},"II":{"n":44,"counts":{"Increased":1,"Stay the same":20,"Decreased":23},"mean_level":2.5},"III":{"n":44,"counts":{"Increased":1,"Stay the same":14,"Decreased":29},"mean_level":2.636}},"PRE_OCT7":{"I":{"n":64,"counts":{"Increased":5,"Stay the same":29,"Decreased":31},"mean_level":2.4},"II":{"n":58,"counts":{"Increased":1,"Stay the same":27,"Decreased":30},"mean_level":2.5},"III":{"n":43,"counts":{"Increased":1,"Stay the same":16,"Decreased":26},"mean_level":2.581}},"POST_OCT7":{"I":{"n":58,"counts":{"Increased":10,"Stay the same":20,"Decreased":29},"mean_level":2.322},"II":{"n":52,"counts":{"Increased":3,"Stay the same":24,"Decreased":25},"mean_level":2.423},"III":{"n":50,"counts":{"Increased":2,"Stay the same":24,"Decreased":24},"mean_level":2.44}}},"era_stats":{"pre_n":64,"post_n":58,"pre_mean":2.4,"post_mean":2.322,"delta":-0.078,"delta_pct_of_scale":-3.9,"p_value":0.53}},"O_SUPPORT_PALESTINIANS":{"label":"US support for Palestinians should be","category":"CORE","ordinal":true,"levels":["Increased","Stay the same","Decreased"],"data":{"ALL":{"I":{"n":123,"counts":{"Increased":65,"Stay the same":41,"Decreased":20},"mean_level":1.643},"II":{"n":111,"counts":{"Increased":67,"Stay the same":29,"Decreased":16},"mean_level":1.545},"III":{"n":93,"counts":{"Increased":62,"Stay the same":23,"Decreased":8},"mean_level":1.419}},"POL441":{"I":{"n":74,"counts":{"Increased":35,"Stay the same":27,"Decreased":12},"mean_level":1.689},"II":{"n":67,"counts":{"Increased":35,"Stay the same":20,"Decreased":13},"mean_level":1.676},"III":{"n":49,"counts":{"Increased":28,"Stay the same":15,"Decreased":6},"mean_level":1.551}},"POL416":{"I":{"n":49,"counts":{"Increased":30,"Stay the same":14,"Decreased":8},"mean_level":1.577},"II":{"n":44,"counts":{"Increased":32,"Stay the same":9,"Decreased":3},"mean_level":1.341},"III":{"n":44,"counts":{"Increased":34,"Stay the same":8,"Decreased":2},"mean_level":1.273}},"PRE_OCT7":{"I":{"n":66,"counts":{"Increased":34,"Stay the same":25,"Decreased":10},"mean_level":1.652},"II":{"n":59,"counts":{"Increased":32,"Stay the same":18,"Decreased":10},"mean_level":1.633},"III":{"n":43,"counts":{"Increased":29,"Stay the same":10,"Decreased":4},"mean_level":1.419}},"POST_OCT7":{"I":{"n":57,"counts":{"Increased":31,"Stay the same":16,"Decreased":10},"mean_level":1.632},"II":{"n":52,"counts":{"Increased":35,"Stay the same":11,"Decreased":6},"mean_level":1.442},"III":{"n":50,"counts":{"Increased":33,"Stay the same":13,"Decreased":4},"mean_level":1.42}}},"era_stats":{"pre_n":66,"post_n":57,"pre_mean":1.652,"post_mean":1.632,"delta":-0.02,"delta_pct_of_scale":-1,"p_value":0.8002}},"P_AID_RESTRICT":{"label":"Support conditioning Israel aid on settlements","category":"REPEAT","ordinal":true,"levels":["Strongly support","Somewhat support","Neither support nor oppose","Somewhat oppose","Strongly oppose"],"data":{"ALL":{"I":{"n":17,"counts":{"Strongly support":2,"Somewhat support":4,"Neither support nor oppose":6,"Somewhat oppose":2,"Strongly oppose":3},"mean_level":3},"II":{"n":113,"counts":{"Strongly support":22,"Somewhat support":44,"Neither support nor oppose":23,"Somewhat oppose":21,"Strongly oppose":6},"mean_level":2.526},"III":{"n":94,"counts":{"Strongly support":22,"Somewhat support":41,"Neither support nor oppose":14,"Somewhat oppose":13,"Strongly oppose":5},"mean_level":2.347}},"POL441":{"I":{"n":17,"counts":{"Strongly support":2,"Somewhat support":4,"Neither support nor oppose":6,"Somewhat oppose":2,"Strongly oppose":3},"mean_level":3},"II":{"n":69,"counts":{"Strongly support":12,"Somewhat support":27,"Neither support nor oppose":14,"Somewhat oppose":15,"Strongly oppose":4},"mean_level":2.611},"III":{"n":50,"counts":{"Strongly support":13,"Somewhat support":21,"Neither support nor oppose":9,"Somewhat oppose":6,"Strongly oppose":2},"mean_level":2.275}},"POL416":{"I":{"n":0,"counts":[]},"II":{"n":44,"counts":{"Strongly support":10,"Somewhat support":17,"Neither support nor oppose":9,"Somewhat oppose":6,"Strongly oppose":2},"mean_level":2.386},"III":{"n":44,"counts":{"Strongly support":9,"Somewhat support":20,"Neither support nor oppose":5,"Somewhat oppose":7,"Strongly oppose":3},"mean_level":2.432}},"PRE_OCT7":{"I":{"n":17,"counts":{"Strongly support":2,"Somewhat support":4,"Neither support nor oppose":6,"Somewhat oppose":2,"Strongly oppose":3},"mean_level":3},"II":{"n":59,"counts":{"Strongly support":14,"Somewhat support":19,"Neither support nor oppose":11,"Somewhat oppose":11,"Strongly oppose":5},"mean_level":2.567},"III":{"n":43,"counts":{"Strongly support":9,"Somewhat support":17,"Neither support nor oppose":5,"Somewhat oppose":9,"Strongly oppose":3},"mean_level":2.535}},"POST_OCT7":{"I":{"n":0,"counts":[]},"II":{"n":54,"counts":{"Strongly support":8,"Somewhat support":25,"Neither support nor oppose":12,"Somewhat oppose":10,"Strongly oppose":1},"mean_level":2.482},"III":{"n":51,"counts":{"Strongly support":13,"Somewhat support":24,"Neither support nor oppose":9,"Somewhat oppose":4,"Strongly oppose":2},"mean_level":2.192}}},"era_stats":{"pre_n":17,"post_n":0,"pre_mean":3,"post_mean":{},"delta":null,"delta_pct_of_scale":null,"p_value":null}},"P_ZION_ATTACHMENT":{"label":"Zionist per 'attachment to Israel' definition","category":"REPEAT","ordinal":true,"levels":["Definitely","Probably","Neutral","Probably not","Definitely not"],"data":{"ALL":{"I":{"n":17,"counts":{"Probably":1,"Neutral":7,"Probably not":4,"Definitely not":5},"mean_level":3.765},"II":{"n":110,"counts":{"Definitely":12,"Probably":10,"Neutral":22,"Probably not":24,"Definitely not":42},"mean_level":3.673},"III":{"n":95,"counts":{"Definitely":6,"Probably":9,"Neutral":25,"Probably not":26,"Definitely not":31},"mean_level":3.691}},"POL441":{"I":{"n":17,"counts":{"Probably":1,"Neutral":7,"Probably not":4,"Definitely not":5},"mean_level":3.765},"II":{"n":66,"counts":{"Definitely":9,"Probably":6,"Neutral":15,"Probably not":14,"Definitely not":22},"mean_level":3.515},"III":{"n":51,"counts":{"Definitely":5,"Probably":7,"Neutral":15,"Probably not":14,"Definitely not":12},"mean_level":3.396}},"POL416":{"I":{"n":0,"counts":[]},"II":{"n":44,"counts":{"Definitely":3,"Probably":4,"Neutral":7,"Probably not":10,"Definitely not":20},"mean_level":3.909},"III":{"n":44,"counts":{"Definitely":1,"Probably":2,"Neutral":10,"Probably not":12,"Definitely not":19},"mean_level":4.045}},"PRE_OCT7":{"I":{"n":17,"counts":{"Probably":1,"Neutral":7,"Probably not":4,"Definitely not":5},"mean_level":3.765},"II":{"n":58,"counts":{"Definitely":5,"Probably":4,"Neutral":14,"Probably not":15,"Definitely not":20},"mean_level":3.707},"III":{"n":43,"counts":{"Definitely":3,"Probably":4,"Neutral":12,"Probably not":9,"Definitely not":15},"mean_level":3.674}},"POST_OCT7":{"I":{"n":0,"counts":[]},"II":{"n":52,"counts":{"Definitely":7,"Probably":6,"Neutral":8,"Probably not":9,"Definitely not":22},"mean_level":3.635},"III":{"n":52,"counts":{"Definitely":3,"Probably":5,"Neutral":13,"Probably not":17,"Definitely not":16},"mean_level":3.704}}},"era_stats":{"pre_n":17,"post_n":0,"pre_mean":3.765,"post_mean":{},"delta":null,"delta_pct_of_scale":null,"p_value":null}},"P_ZION_JEWISH_DEM_STATE":{"label":"Zionist per 'Jewish and democratic state' definition","category":"REPEAT","ordinal":true,"levels":["Definitely","Probably","Neutral","Probably not","Definitely not"],"data":{"ALL":{"I":{"n":17,"counts":{"Definitely":2,"Probably":3,"Neutral":8,"Probably not":2,"Definitely not":2},"mean_level":2.941},"II":{"n":113,"counts":{"Definitely":16,"Probably":28,"Neutral":35,"Probably not":23,"Definitely not":14},"mean_level":2.922},"III":{"n":93,"counts":{"Definitely":10,"Probably":20,"Neutral":35,"Probably not":18,"Definitely not":10},"mean_level":2.978}},"POL441":{"I":{"n":17,"counts":{"Definitely":2,"Probably":3,"Neutral":8,"Probably not":2,"Definitely not":2},"mean_level":2.941},"II":{"n":68,"counts":{"Definitely":14,"Probably":16,"Neutral":20,"Probably not":13,"Definitely not":7},"mean_level":2.757},"III":{"n":49,"counts":{"Definitely":7,"Probably":10,"Neutral":16,"Probably not":10,"Definitely not":6},"mean_level":2.959}},"POL416":{"I":{"n":0,"counts":[]},"II":{"n":45,"counts":{"Definitely":2,"Probably":12,"Neutral":15,"Probably not":10,"Definitely not":7},"mean_level":3.174},"III":{"n":44,"counts":{"Definitely":3,"Probably":10,"Neutral":19,"Probably not":8,"Definitely not":4},"mean_level":3}},"PRE_OCT7":{"I":{"n":17,"counts":{"Definitely":2,"Probably":3,"Neutral":8,"Probably not":2,"Definitely not":2},"mean_level":2.941},"II":{"n":59,"counts":{"Definitely":8,"Probably":16,"Neutral":19,"Probably not":9,"Definitely not":8},"mean_level":2.883},"III":{"n":43,"counts":{"Definitely":4,"Probably":10,"Neutral":16,"Probably not":6,"Definitely not":7},"mean_level":3.047}},"POST_OCT7":{"I":{"n":0,"counts":[]},"II":{"n":54,"counts":{"Definitely":8,"Probably":12,"Neutral":16,"Probably not":14,"Definitely not":6},"mean_level":2.964},"III":{"n":50,"counts":{"Definitely":6,"Probably":10,"Neutral":19,"Probably not":12,"Definitely not":3},"mean_level":2.92}}},"era_stats":{"pre_n":17,"post_n":0,"pre_mean":2.941,"post_mean":{},"delta":null,"delta_pct_of_scale":null,"p_value":null}},"P_ZION_PRIVILEGE":{"label":"Zionist per 'privileging Jewish rights' definition","category":"REPEAT","ordinal":true,"levels":["Definitely","Probably","Neutral","Probably not","Definitely not"],"data":{"ALL":{"I":{"n":17,"counts":{"Probably":1,"Neutral":2,"Probably not":4,"Definitely not":10},"mean_level":4.353},"II":{"n":110,"counts":{"Definitely":3,"Probably":1,"Neutral":14,"Probably not":26,"Definitely not":66},"mean_level":4.373},"III":{"n":93,"counts":{"Definitely":1,"Probably":4,"Neutral":9,"Probably not":25,"Definitely not":55},"mean_level":4.372}},"POL441":{"I":{"n":17,"counts":{"Probably":1,"Neutral":2,"Probably not":4,"Definitely not":10},"mean_level":4.353},"II":{"n":66,"counts":{"Definitely":2,"Neutral":10,"Probably not":18,"Definitely not":36},"mean_level":4.303},"III":{"n":49,"counts":{"Probably":4,"Neutral":5,"Probably not":12,"Definitely not":29},"mean_level":4.32}},"POL416":{"I":{"n":0,"counts":[]},"II":{"n":44,"counts":{"Definitely":1,"Probably":1,"Neutral":4,"Probably not":8,"Definitely not":30},"mean_level":4.477},"III":{"n":44,"counts":{"Definitely":1,"Neutral":4,"Probably not":13,"Definitely not":26},"mean_level":4.432}},"PRE_OCT7":{"I":{"n":17,"counts":{"Probably":1,"Neutral":2,"Probably not":4,"Definitely not":10},"mean_level":4.353},"II":{"n":58,"counts":{"Definitely":3,"Neutral":5,"Probably not":15,"Definitely not":35},"mean_level":4.362},"III":{"n":43,"counts":{"Definitely":1,"Probably":2,"Neutral":4,"Probably not":7,"Definitely not":29},"mean_level":4.419}},"POST_OCT7":{"I":{"n":0,"counts":[]},"II":{"n":52,"counts":{"Probably":1,"Neutral":9,"Probably not":11,"Definitely not":31},"mean_level":4.385},"III":{"n":50,"counts":{"Probably":2,"Neutral":5,"Probably not":18,"Definitely not":26},"mean_level":4.333}}},"era_stats":{"pre_n":17,"post_n":0,"pre_mean":4.353,"post_mean":{},"delta":null,"delta_pct_of_scale":null,"p_value":null}}},"n_summary":{"ALL":[126,119,102],"POL441":[77,74,58],"POL416":[49,45,44],"PRE_OCT7":[67,64,45],"POST_OCT7":[59,55,57]}}
+</script>
+
+<script id="zionism-text-data" type="application/json">
+{"zionism_text":{"ALL":{"I":{"n":126,"word_freq":{"jewish":80,"israel":33,"movement":32,"people":24,"nation":19,"homeland":17,"land":14,"belief":11,"jews":10,"political":10,"support":9,"idea":7,"establishment":6,"ideology":6,"means":6,"protection":6,"development":5,"supporting":5,"supports":5,"creating":4,"determination":4,"isreal":4,"nationalist":4,"palestine":4,"religion":4,"community":3,"establish":3,"identity":3,"israeli":3,"jerusalem":3,"judaism":3,"palestinian":3,"protect":3,"protecting":3,"reclamation":3,"religious":3,"aims":2,"beliefs":2,"believing":2,"claim":2,"connection":2,"country":2,"create":2,"creation":2,"entitled":2,"exist":2,"existence":2,"favor":2,"form":2,"independent":2},"sentiment":{"n":126,"counts":{"Positive":47,"Neutral":77,"Negative":2},"avg_net_score":0.373,"pct_positive":37.3,"pct_negative":1.6,"top_positive_words":{"support":9,"right":7,"protection":6,"supporting":5,"supports":5,"protect":3,"favor":2,"secure":2},"top_negative_words":{"radical":2,"destruction":1,"racism":1}}},"II":{"n":115,"word_freq":{"jewish":95,"movement":40,"israel":34,"people":24,"homeland":23,"nation":19,"land":16,"support":11,"establishment":10,"belief":9,"nationalist":9,"palestine":9,"establish":8,"idea":7,"jews":7,"political":7,"establishing":6,"create":5,"home":5,"means":5,"creation":4,"religious":4,"return":4,"supporting":4,"supports":4,"country":3,"determination":3,"development":3,"exist":3,"judaism":3,"national":3,"nationalism":3,"palestinian":3,"protecting":3,"protection":3,"zion":3,"calls":2,"creating":2,"culture":2,"desire":2,"develop":2,"expansion":2,"historical":2,"identity":2,"ideology":2,"isreal":2,"movment":2,"nationhood":2,"necessity":2,"organization":2},"sentiment":{"n":115,"counts":{"Positive":34,"Neutral":72,"Negative":9},"avg_net_score":0.287,"pct_positive":29.6,"pct_negative":7.8,"top_positive_words":{"support":11,"right":10,"supporting":4,"supports":4,"protection":3,"strong":2,"aspiration":1,"destiny":1},"top_negative_words":{"complicated":1,"conservative":1,"crush":1,"destruction":1,"disagree":1,"exile":1,"injustice":1,"persecution":1}}},"III":{"n":101,"word_freq":{"jewish":77,"movement":31,"homeland":30,"israel":29,"people":20,"land":15,"nation":12,"political":10,"support":10,"establishment":9,"belief":8,"establish":8,"jews":8,"determination":4,"palestine":4,"zion":4,"ancestral":3,"creation":3,"development":3,"expansion":3,"identity":3,"ideology":3,"isreal":3,"national":3,"nationalist":3,"project":3,"religion":3,"settler":3,"advocates":2,"advocating":2,"aims":2,"belongs":2,"colonialist":2,"community":2,"continuation":2,"create":2,"desire":2,"destruction":2,"exist":2,"existence":2,"idea":2,"israelis":2,"judaism":2,"means":2,"palestinian":2,"protect":2,"protection":2,"religious":2,"return":2,"social":2},"sentiment":{"n":101,"counts":{"Positive":34,"Neutral":62,"Negative":5},"avg_net_score":0.307,"pct_positive":33.7,"pct_negative":5,"top_positive_words":{"support":10,"right":9,"advocates":2,"protect":2,"protection":2,"supporting":2,"supports":2,"advocate":1},"top_negative_words":{"destruction":2,"harmful":1,"malicious":1,"racism":1,"racist":1}}}},"POL441":{"I":{"n":77,"word_freq":{"jewish":47,"israel":22,"movement":20,"people":15,"homeland":11,"land":11,"nation":11,"belief":7,"jews":7,"political":7,"idea":6,"support":6,"ideology":5,"protection":5,"isreal":4,"means":4,"determination":3,"identity":3,"israeli":3,"protecting":3,"religion":3,"creating":2,"creation":2,"development":2,"entitled":2,"establishment":2,"favor":2,"form":2,"independent":2,"judaism":2,"nationalism":2,"nationalist":2,"peoples":2,"protect":2,"radical":2,"reclamation":2,"religious":2,"represents":2,"secure":2,"sovereign":2,"supporting":2,"supports":2,"19th":1,"20th":1,"advocacy":1,"aimed":1,"aims":1,"anti":1,"aspect":1,"beliefs":1},"sentiment":{"n":77,"counts":{"Positive":31,"Neutral":45,"Negative":1},"avg_net_score":0.403,"pct_positive":40.3,"pct_negative":1.3,"top_positive_words":{"right":6,"support":6,"protection":5,"favor":2,"protect":2,"secure":2,"supporting":2,"supports":2},"top_negative_words":{"radical":2}}},"II":{"n":70,"word_freq":{"jewish":55,"movement":26,"israel":23,"people":18,"nation":14,"homeland":13,"land":13,"establishment":7,"nationalist":7,"palestine":6,"political":6,"belief":5,"create":5,"establish":5,"jews":5,"support":5,"home":4,"determination":3,"exist":3,"judaism":3,"supporting":3,"zion":3,"creation":2,"desire":2,"historical":2,"idea":2,"isreal":2,"means":2,"movment":2,"national":2,"nationhood":2,"organization":2,"protection":2,"religious":2,"return":2,"soverign":2,"territory":2,"1990s":1,"advocation":1,"aiming":1,"aka":1,"arab":1,"aspect":1,"aspiration":1,"becasue":1,"beliefs":1,"believing":1,"calls":1,"charged":1,"citzens":1},"sentiment":{"n":70,"counts":{"Positive":21,"Neutral":44,"Negative":5},"avg_net_score":0.3,"pct_positive":30,"pct_negative":7.1,"top_positive_words":{"right":9,"support":5,"supporting":3,"protection":2,"aspiration":1,"destiny":1,"holy":1,"leads":1},"top_negative_words":{"complicated":1,"disagree":1,"exile":1,"injustice":1,"persecution":1,"threat":1}}},"III":{"n":57,"word_freq":{"jewish":41,"israel":20,"movement":19,"homeland":16,"people":12,"land":9,"nation":8,"political":6,"support":6,"establish":5,"establishment":5,"jews":5,"zion":4,"belief":3,"determination":3,"national":3,"project":3,"continuation":2,"desire":2,"development":2,"exist":2,"existence":2,"identity":2,"isreal":2,"judaism":2,"nationalist":2,"palestine":2,"settler":2,"advocacy":1,"advocate":1,"advocating":1,"aims":1,"ancestral":1,"antisemitism":1,"based":1,"beleive":1,"believes":1,"belongs":1,"bringing":1,"buidling":1,"building":1,"colonialist":1,"conomialim":1,"control":1,"create":1,"creating":1,"current":1,"destruction":1,"determine":1,"developing":1},"sentiment":{"n":57,"counts":{"Positive":21,"Neutral":34,"Negative":2},"avg_net_score":0.368,"pct_positive":36.8,"pct_negative":3.5,"top_positive_words":{"right":8,"support":6,"advocate":1,"helped":1,"holy":1,"promised":1,"protect":1,"protection":1},"top_negative_words":{"destruction":1,"malicious":1}}}},"POL416":{"I":{"n":49,"word_freq":{"jewish":33,"movement":12,"israel":11,"people":9,"nation":8,"homeland":6,"belief":4,"establishment":4,"community":3,"development":3,"establish":3,"jews":3,"land":3,"palestine":3,"political":3,"support":3,"supporting":3,"supports":3,"believing":2,"create":2,"creating":2,"israel's":2,"jerusalem":2,"lands":2,"means":2,"national":2,"nationalist":2,"palestinian":2,"term":2,"acient":1,"aims":1,"ancesteral":1,"ancestral":1,"ancestrial":1,"bank":1,"beliefs":1,"believes":1,"claim":1,"connection":1,"consertive":1,"considered":1,"country":1,"cultures":1,"current":1,"defining":1,"destruction":1,"determination":1,"establishing":1,"exist":1,"existence":1},"sentiment":{"n":49,"counts":{"Positive":16,"Neutral":32,"Negative":1},"avg_net_score":0.327,"pct_positive":32.7,"pct_negative":2,"top_positive_words":{"support":3,"supporting":3,"supports":3,"free":1,"honest":1,"protect":1,"protection":1,"reclaim":1},"top_negative_words":{"destruction":1,"racism":1}}},"II":{"n":45,"word_freq":{"jewish":40,"movement":14,"israel":11,"homeland":10,"people":6,"support":6,"establishing":5,"idea":5,"nation":5,"belief":4,"development":3,"establish":3,"establishment":3,"land":3,"means":3,"palestine":3,"protecting":3,"supports":3,"country":2,"creation":2,"jews":2,"nationalism":2,"nationalist":2,"palestinian":2,"religious":2,"return":2,"advocating":1,"ancestrial":1,"ancient":1,"believes":1,"belif":1,"called":1,"calls":1,"claiming":1,"community":1,"complete":1,"conservative":1,"creating":1,"crush":1,"culture":1,"destruction":1,"develop":1,"east":1,"expansion":1,"expense":1,"exteme":1,"historic":1,"historically":1,"home":1,"ideal":1},"sentiment":{"n":45,"counts":{"Positive":13,"Neutral":28,"Negative":4},"avg_net_score":0.267,"pct_positive":28.9,"pct_negative":8.9,"top_positive_words":{"support":6,"supports":3,"ideal":1,"protect":1,"protection":1,"reclaim":1,"right":1,"strong":1},"top_negative_words":{"conservative":1,"crush":1,"destruction":1,"racism":1,"unjust":1}}},"III":{"n":44,"word_freq":{"jewish":36,"homeland":14,"movement":12,"israel":9,"people":8,"land":6,"belief":5,"establishment":4,"nation":4,"political":4,"support":4,"creation":3,"establish":3,"expansion":3,"jews":3,"advocates":2,"ancestral":2,"community":2,"ideology":2,"palestine":2,"religion":2,"act":1,"adherence":1,"advocating":1,"aims":1,"ancient":1,"apartheid":1,"belongs":1,"biblical":1,"colonialist":1,"connection":1,"create":1,"cultural":1,"destruction":1,"determination":1,"development":1,"establishes":1,"establishing":1,"expense":1,"faith":1,"founding":1,"geographic":1,"harmful":1,"idea":1,"identity":1,"israelis":1,"isreal":1,"life":1,"means":1,"nationalist":1},"sentiment":{"n":44,"counts":{"Positive":13,"Neutral":28,"Negative":3},"avg_net_score":0.227,"pct_positive":29.5,"pct_negative":6.8,"top_positive_words":{"support":4,"advocates":2,"faith":1,"protect":1,"protection":1,"reclaim":1,"right":1,"supporting":1},"top_negative_words":{"destruction":1,"harmful":1,"racism":1,"racist":1}}}},"PRE_OCT7":{"I":{"n":67,"word_freq":{"jewish":42,"movement":18,"israel":16,"nation":13,"people":10,"homeland":9,"ideology":6,"jews":6,"support":5,"belief":4,"means":4,"political":4,"protection":4,"supports":4,"creating":3,"establishment":3,"identity":3,"land":3,"reclamation":3,"supporting":3,"community":2,"creation":2,"entitled":2,"establish":2,"existence":2,"idea":2,"international":2,"israeli":2,"judaism":2,"lands":2,"nationality":2,"palestine":2,"palestinian":2,"peoples":2,"protecting":2,"radical":2,"religion":2,"religious":2,"sovereign":2,"19th":1,"20th":1,"aims":1,"ancesteral":1,"ancestral":1,"anti":1,"beliefs":1,"caim":1,"century":1,"clue":1,"common":1},"sentiment":{"n":67,"counts":{"Positive":22,"Neutral":44,"Negative":1},"avg_net_score":0.313,"pct_positive":32.8,"pct_negative":1.5,"top_positive_words":{"support":5,"protection":4,"supports":4,"supporting":3,"enough":1,"favor":1,"ideal":1,"protect":1},"top_negative_words":{"radical":2,"destruction":1}}},"II":{"n":60,"word_freq":{"jewish":46,"movement":22,"israel":18,"people":15,"nation":13,"homeland":11,"belief":7,"land":7,"establishment":6,"palestine":6,"nationalist":5,"establish":4,"idea":4,"means":4,"political":4,"support":4,"create":3,"creation":3,"home":3,"judaism":3,"palestinian":3,"country":2,"desire":2,"develop":2,"establishing":2,"identity":2,"jews":2,"nationhood":2,"necessity":2,"organization":2,"protection":2,"reclamation":2,"seeking":2,"social":2,"territory":2,"aiming":1,"aka":1,"arab":1,"aspiration":1,"becasue":1,"beliefs":1,"believing":1,"charged":1,"claim":1,"claiming":1,"coming":1,"complete":1,"complicated":1,"comunity":1,"contemporary":1},"sentiment":{"n":60,"counts":{"Positive":10,"Neutral":45,"Negative":5},"avg_net_score":0.1,"pct_positive":16.7,"pct_negative":8.3,"top_positive_words":{"support":4,"protection":2,"aspiration":1,"reclaim":1,"right":1,"safe":1,"strong":1,"supporting":1},"top_negative_words":{"complicated":1,"crush":1,"destruction":1,"disagree":1,"exile":1,"threat":1,"unjust":1}}},"III":{"n":44,"word_freq":{"jewish":30,"movement":17,"israel":13,"people":9,"homeland":8,"land":7,"nation":6,"support":6,"political":5,"belief":4,"establish":4,"establishment":3,"jews":3,"desire":2,"destruction":2,"existence":2,"identity":2,"national":2,"palestine":2,"palestinian":2,"protect":2,"social":2,"zion":2,"act":1,"aims":1,"antisemitism":1,"based":1,"beleive":1,"believes":1,"bringing":1,"buidling":1,"community":1,"conomialim":1,"continuation":1,"create":1,"creating":1,"creation":1,"current":1,"establishes":1,"establishnent":1,"ethnostate":1,"europe":1,"expense":1,"figting":1,"focuses":1,"formed":1,"founding":1,"historical":1,"historically":1,"holy":1},"sentiment":{"n":44,"counts":{"Positive":16,"Neutral":24,"Negative":4},"avg_net_score":0.295,"pct_positive":36.4,"pct_negative":9.1,"top_positive_words":{"support":6,"right":3,"protect":2,"holy":1,"protection":1,"reclaim":1,"striving":1,"supports":1},"top_negative_words":{"destruction":2,"malicious":1,"racist":1}}}},"POST_OCT7":{"I":{"n":59,"word_freq":{"jewish":38,"israel":17,"movement":14,"people":14,"land":11,"homeland":8,"belief":7,"nation":6,"political":6,"idea":5,"determination":4,"development":4,"jews":4,"support":4,"establishment":3,"isreal":3,"nationalist":3,"believing":2,"claim":2,"connection":2,"exist":2,"jerusalem":2,"means":2,"palestine":2,"protect":2,"protection":2,"religion":2,"represents":2,"supporting":2,"acient":1,"advocacy":1,"aimed":1,"aims":1,"ancestrial":1,"aspect":1,"bank":1,"beliefs":1,"believes":1,"biblical":1,"community":1,"consertive":1,"country":1,"create":1,"creating":1,"cultures":1,"current":1,"designated":1,"determine":1,"due":1,"establish":1},"sentiment":{"n":59,"counts":{"Positive":25,"Neutral":33,"Negative":1},"avg_net_score":0.441,"pct_positive":42.4,"pct_negative":1.7,"top_positive_words":{"right":6,"support":4,"protect":2,"protection":2,"supporting":2,"favor":1,"free":1,"holy":1},"top_negative_words":{"racism":1}}},"II":{"n":55,"word_freq":{"jewish":49,"movement":18,"israel":16,"homeland":12,"land":9,"people":9,"support":7,"nation":6,"jews":5,"establish":4,"establishing":4,"establishment":4,"nationalist":4,"determination":3,"exist":3,"idea":3,"palestine":3,"political":3,"religious":3,"return":3,"supporting":3,"supports":3,"belief":2,"calls":2,"create":2,"development":2,"expansion":2,"home":2,"ideology":2,"isreal":2,"national":2,"nationalism":2,"protecting":2,"returning":2,"zion":2,"1990s":1,"advocating":1,"advocation":1,"ancestrial":1,"ancient":1,"aspect":1,"believes":1,"belif":1,"called":1,"citzens":1,"community":1,"conservative":1,"country":1,"creating":1,"creation":1},"sentiment":{"n":55,"counts":{"Positive":24,"Neutral":27,"Negative":4},"avg_net_score":0.491,"pct_positive":43.6,"pct_negative":7.3,"top_positive_words":{"right":9,"support":7,"supporting":3,"supports":3,"destiny":1,"holy":1,"ideal":1,"leads":1},"top_negative_words":{"conservative":1,"injustice":1,"persecution":1,"racism":1}}},"III":{"n":57,"word_freq":{"jewish":47,"homeland":22,"israel":16,"movement":14,"people":11,"land":8,"establishment":6,"nation":6,"jews":5,"political":5,"belief":4,"determination":4,"establish":4,"support":4,"ancestral":3,"development":3,"expansion":3,"nationalist":3,"project":3,"religion":3,"advocates":2,"advocating":2,"belongs":2,"colonialist":2,"creation":2,"exist":2,"idea":2,"ideology":2,"isreal":2,"palestine":2,"settler":2,"statehood":2,"supporting":2,"zion":2,"adherence":1,"advocacy":1,"advocate":1,"aims":1,"ancient":1,"apartheid":1,"biblical":1,"building":1,"community":1,"connection":1,"continuation":1,"control":1,"create":1,"cultural":1,"determine":1,"developing":1},"sentiment":{"n":57,"counts":{"Positive":18,"Neutral":38,"Negative":1},"avg_net_score":0.316,"pct_positive":31.6,"pct_negative":1.8,"top_positive_words":{"right":6,"support":4,"advocates":2,"supporting":2,"advocate":1,"faith":1,"helped":1,"promised":1},"top_negative_words":{"harmful":1,"racism":1}}}}}}
+</script>
+
+<script>
+(function(){
+  const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+  const questions = DATA.questions;
+  const nSummary = DATA.n_summary;
+  const ZIONISM_TEXT = JSON.parse(document.getElementById('zionism-text-data').textContent).zionism_text;
+  const TEXT_QID = 'O_ZIONISM_MEANING';
+
+  const CAT_COLORS = ['var(--cat-1)','var(--cat-2)','var(--cat-3)','var(--cat-4)','var(--cat-5)','var(--cat-6)','var(--cat-7)','var(--cat-8)'];
+
+  // group questions for the dropdown
+  const GROUPS = [
+    { label: 'Attitudes toward Israel/Palestine', qids: ['O_RIGHT_EXIST','O_APARTHEID','O_RACISM_SIMILAR','O_GENOCIDE','O_PROISRAEL_CRITIQUE','O_RESOLUTION'] },
+    { label: 'US policy', qids: ['O_SUPPORT_ISRAEL','O_SUPPORT_PALESTINIANS','P_AID_RESTRICT'] },
+    { label: 'Zionism (self-identification)', qids: ['P_ZION_ATTACHMENT','P_ZION_JEWISH_DEM_STATE','P_ZION_PRIVILEGE'] },
+    { label: 'Informedness & concern', qids: ['O_INFORMED','O_INFO_SOURCES','O_CONCERN_ANTISEMITISM','O_CONCERN_ISLAMOPHOBIA'] },
+  ];
+
+  const qSelect = document.getElementById('qSelect');
+  GROUPS.forEach(g => {
+    const og = document.createElement('optgroup');
+    og.label = g.label;
+    g.qids.forEach(qid => {
+      if (!questions[qid]) return;
+      const opt = document.createElement('option');
+      opt.value = qid;
+      opt.textContent = questions[qid].label;
+      og.appendChild(opt);
+    });
+    qSelect.appendChild(og);
+  });
+  const ogText = document.createElement('optgroup');
+  ogText.label = 'Open-ended';
+  const optText = document.createElement('option');
+  optText.value = TEXT_QID;
+  optText.textContent = 'What Zionism means to you (word cloud + sentiment)';
+  ogText.appendChild(optText);
+  qSelect.appendChild(ogText);
+
+  const GROUPINGS = [
+    { key: 'ALL', title: 'Both classes combined' },
+    { key: 'POL441', title: 'POL 441 (ISPA Conflict)' },
+    { key: 'POL416', title: 'POL 416 (Domestic Politics of ISPA)' },
+  ];
+  const GROUPINGS_ERA = [
+    { key: 'PRE_OCT7', title: 'Before Oct 7, 2023 (Fall 21 – Fall 23)' },
+    { key: 'POST_OCT7', title: 'After Oct 7, 2023 (Spring 24 – Fall 25)' },
+  ];
+  const ALL_GROUPINGS = GROUPINGS.concat(GROUPINGS_ERA);
+  const WAVES = ['I','II','III'];
+  const WAVE_NAMES = { I: 'Survey I — start', II: 'Survey II — mid-semester', III: 'Survey III — end' };
+
+  function colorForLevel(levels, idx) {
+    const n = levels.length;
+    const mid = (n - 1) / 2;
+    if (idx < mid) {
+      // blue side: darker = more extreme
+      const stepsFromEdge = Math.floor(mid) - idx; // larger = closer to pole
+      const opacity = n <= 3 ? 1 : (idx === 0 ? 1 : 0.6);
+      return { hex: 'var(--blue)', opacity: idx === 0 ? 1 : 0.62 };
+    } else if (idx > mid) {
+      return { hex: 'var(--red)', opacity: (idx === n - 1) ? 1 : 0.62 };
+    } else {
+      return { hex: 'var(--neutral-mid)', opacity: 1, isNeutral: true };
+    }
+  }
+
+  function buildLevelColors(levels) {
+    const n = levels.length;
+    if (n % 2 === 1) {
+      // odd: symmetric with a true middle neutral
+      const half = (n - 1) / 2;
+      return levels.map((lv, i) => {
+        if (i < half) return blueShade(half - i, half);
+        if (i > half) return redShade(i - half, half);
+        return { css: 'var(--neutral-mid)', textDark: true };
+      });
+    } else {
+      // even: split evenly, no neutral
+      const half = n / 2;
+      return levels.map((lv, i) => {
+        if (i < half) return blueShade(half - i, half);
+        return redShade(i - half + 1, half);
+      });
+    }
+  }
+  function blueShade(rankFromCenter, half) {
+    // rankFromCenter: 1 = closest to center (lightest), half = pole (darkest/strongest)
+    // mix toward a FIXED white (not the mode-dependent surface) so the resulting
+    // fill luminance -- and therefore the text-color decision -- is the same in light & dark mode
+    const t = half <= 1 ? 1 : (rankFromCenter - 1) / (half - 1); // 0..1, 1 = pole
+    const op = 0.45 + 0.55 * t;
+    return { css: `color-mix(in srgb, var(--blue) ${Math.round(op*100)}%, white)`, textDark: op < 0.7 };
+  }
+  function redShade(rankFromCenter, half) {
+    const t = half <= 1 ? 1 : (rankFromCenter - 1) / (half - 1);
+    const op = 0.45 + 0.55 * t;
+    return { css: `color-mix(in srgb, var(--red) ${Math.round(op*100)}%, white)`, textDark: op < 0.7 };
+  }
+
+  function nominalColors(levels) {
+    return levels.map((lv, i) => ({ css: CAT_COLORS[i % CAT_COLORS.length], textDark: false }));
+  }
+
+  const tooltip = document.getElementById('tooltip');
+  function showTip(e, html) {
+    tooltip.innerHTML = html;
+    tooltip.style.opacity = 1;
+    const x = Math.min(e.clientX + 14, window.innerWidth - 270);
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = (e.clientY + 14) + 'px';
+  }
+  function hideTip() { tooltip.style.opacity = 0; }
+
+  function fmtPct(x) { return (Math.round(x * 10) / 10).toFixed(1) + '%'; }
+
+  function renderLegend(levels, colors, ordinal) {
+    const legend = document.getElementById('legend');
+    legend.innerHTML = '';
+    levels.forEach((lv, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      const sw = document.createElement('div');
+      sw.className = 'legend-swatch';
+      sw.style.background = colors[i].css;
+      item.appendChild(sw);
+      const txt = document.createElement('span');
+      txt.textContent = lv;
+      item.appendChild(txt);
+      legend.appendChild(item);
+    });
+  }
+
+  function render(qid) {
+    if (qid === TEXT_QID) { renderTextQuestion(); return; }
+    const q = questions[qid];
+    const levels = q.ordinal ? q.levels : unionLevels(q);
+    const colors = q.ordinal ? buildLevelColors(levels) : nominalColors(levels);
+
+    document.getElementById('qMeta').innerHTML =
+      '<b>' + q.label + '</b> &middot; category: ' + q.category +
+      (q.ordinal ? ' &middot; ordinal scale (' + levels.length + ' levels)' : ' &middot; unordered categories');
+
+    renderLegend(levels, colors, q.ordinal);
+
+    renderPanelGroup(qid, 'panels', GROUPINGS, levels, colors);
+    renderPanelGroup(qid, 'panelsEra', GROUPINGS_ERA, levels, colors);
+    renderFindingsBox(qid);
+    renderTable(qid, levels);
+  }
+
+  function renderPanelGroup(qid, containerId, groupingsList, levels, colors) {
+    const q = questions[qid];
+    const panelsEl = document.getElementById(containerId);
+    panelsEl.innerHTML = '';
+
+    groupingsList.forEach(g => {
+      const panel = document.createElement('div');
+      panel.className = 'panel';
+      const h2 = document.createElement('h2');
+      h2.textContent = g.title;
+      panel.appendChild(h2);
+      const nNote = document.createElement('div');
+      nNote.className = 'n-note';
+      nNote.textContent = 'enrollments per wave: ' + nSummary[g.key].join(' / ');
+      panel.appendChild(nNote);
+
+      WAVES.forEach(w => {
+        const bw = q.data[g.key][w];
+        const row = document.createElement('div');
+        row.className = 'wave-row';
+        const labelRow = document.createElement('div');
+        labelRow.className = 'wave-label-row';
+        labelRow.innerHTML = '<span class="wave-label">' + WAVE_NAMES[w] + '</span>' +
+          '<span class="wave-n">n=' + bw.n + '</span>';
+        row.appendChild(labelRow);
+
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        const total = Object.values(bw.counts || {}).reduce((a,b)=>a+b, 0);
+        if (total === 0) {
+          bar.style.opacity = 0.35;
+          const empty = document.createElement('div');
+          empty.style.cssText = 'flex:1;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:var(--text-muted);';
+          empty.textContent = 'not asked this wave';
+          bar.appendChild(empty);
+        } else {
+          levels.forEach((lv, i) => {
+            const cnt = (bw.counts && bw.counts[lv]) || 0;
+            if (cnt === 0) return;
+            const pct = 100 * cnt / total;
+            const seg = document.createElement('div');
+            seg.className = 'seg';
+            seg.style.width = pct + '%';
+            seg.style.background = colors[i].css;
+            if (pct > 9) {
+              const lab = document.createElement('span');
+              lab.className = 'seg-label' + (colors[i].textDark ? ' dark-text' : '');
+              lab.textContent = fmtPct(pct);
+              seg.appendChild(lab);
+            }
+            seg.addEventListener('mousemove', (e) => showTip(e,
+              '<b>' + lv + '</b><br>' + cnt + ' of ' + total + ' respondents (' + fmtPct(pct) + ')'));
+            seg.addEventListener('mouseleave', hideTip);
+            bar.appendChild(seg);
+          });
+        }
+        row.appendChild(bar);
+        panel.appendChild(row);
+      });
+
+      if (q.ordinal) {
+        const dI = q.data[g.key]['I'].mean_level;
+        const dIII = q.data[g.key]['III'].mean_level;
+        const deltaRow = document.createElement('div');
+        deltaRow.className = 'delta-row';
+        if (dI != null && dIII != null) {
+          const diff = dIII - dI;
+          const dir = diff < -0.001 ? 'delta-up' : diff > 0.001 ? 'delta-down' : '';
+          const arrow = diff < -0.001 ? '↓' : diff > 0.001 ? '↑' : '→';
+          deltaRow.innerHTML = 'Mean position (I → III): ' + dI.toFixed(2) + ' → ' + dIII.toFixed(2) +
+            ' <span class="delta-badge ' + dir + '">' + arrow + ' ' + (Math.abs(diff)).toFixed(2) + '</span>';
+        } else {
+          deltaRow.innerHTML = '<span style="color:var(--text-muted)">Insufficient data for I→III comparison</span>';
+        }
+        panel.appendChild(deltaRow);
+      }
+
+      panelsEl.appendChild(panel);
+    });
+  }
+
+  function unionLevels(q) {
+    const set = [];
+    ALL_GROUPINGS.forEach(g => WAVES.forEach(w => {
+      const c = q.data[g.key][w].counts || {};
+      Object.keys(c).forEach(k => { if (!set.includes(k)) set.push(k); });
+    }));
+    // sort by total frequency desc
+    const totals = {};
+    set.forEach(k => totals[k] = 0);
+    ALL_GROUPINGS.forEach(g => WAVES.forEach(w => {
+      const c = q.data[g.key][w].counts || {};
+      Object.keys(c).forEach(k => totals[k] += c[k]);
+    }));
+    return set.sort((a,b) => totals[b] - totals[a]);
+  }
+
+  function renderTable(qid, levels) {
+    const q = questions[qid];
+    const wrap = document.getElementById('tableWrap');
+    let html = '<table class="data-table"><thead><tr><th>Grouping</th><th>Wave</th><th>n</th>';
+    levels.forEach(lv => html += '<th>' + lv + '</th>');
+    html += '</tr></thead><tbody>';
+    ALL_GROUPINGS.forEach(g => {
+      WAVES.forEach(w => {
+        const bw = q.data[g.key][w];
+        const total = Object.values(bw.counts || {}).reduce((a,b)=>a+b, 0);
+        html += '<tr><td>' + g.title + '</td><td>' + w + '</td><td>' + bw.n + '</td>';
+        levels.forEach(lv => {
+          const cnt = (bw.counts && bw.counts[lv]) || 0;
+          html += '<td>' + (total ? cnt + ' (' + fmtPct(100*cnt/total) + ')' : '—') + '</td>';
+        });
+        html += '</tr>';
+      });
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+  }
+
+  function renderFindingsBox(qid) {
+    const q = questions[qid];
+    const box = document.getElementById('findingsBox');
+    const es = q.era_stats;
+    if (!es) { box.innerHTML = ''; return; }
+
+    if (q.ordinal) {
+      if (!es.pre_n || !es.post_n || es.pre_mean == null || es.post_mean == null || typeof es.post_mean === 'object') {
+        box.innerHTML = '<h3>Before vs. after Oct 7 — baseline (Survey I) comparison</h3>' +
+          '<span style="color:var(--text-muted)">This question wasn\'t asked at Survey I in enough post-Oct-7 terms to compare baselines directly (see wave-by-wave panels above instead).</span>';
+        return;
+      }
+      const diff = es.delta;
+      const hasP = es.p_value != null;
+      const sig = hasP && es.p_value < 0.05;
+      const dir = diff < 0 ? 'lower (more toward the first-listed / supportive end)' : diff > 0 ? 'higher (more toward the last-listed / opposing end)' : 'unchanged';
+      box.innerHTML = '<h3>Before vs. after Oct 7 — baseline (Survey I) comparison</h3>' +
+        'Incoming students before Oct 7 (n=' + es.pre_n + ') averaged <b>' + es.pre_mean.toFixed(2) + '</b> on this ' + q.levels.length + '-point scale; ' +
+        'incoming students after Oct 7 (n=' + es.post_n + ') averaged <b>' + es.post_mean.toFixed(2) + '</b> — a shift of ' +
+        '<span class="delta-badge">' + (diff > 0 ? '+' : '') + diff.toFixed(2) + '</span> (' + (es.delta_pct_of_scale > 0 ? '+' : '') + es.delta_pct_of_scale + '% of the full scale), ' + dir + '. ' +
+        (hasP
+          ? 'Two-sample t-test p-value: <span class="sig' + (sig ? ' yes' : '') + '">' + es.p_value.toFixed(4) + '</span>' +
+            (sig ? ' — statistically distinguishable from no change at the 0.05 level.' : ' — not statistically distinguishable from noise at conventional (0.05) significance given the sample sizes.')
+          : 'Not enough Wave I responses in one era to run a significance test.');
+    } else {
+      if (!es.pre_n || !es.post_n) { box.innerHTML = ''; return; }
+      let html = '<h3>Before vs. after Oct 7 — baseline (Survey I) category shares</h3>' +
+        'Pre n=' + es.pre_n + ', post n=' + es.post_n + '.<br>';
+      const shifts = Object.entries(es.pct_point_shifts || {}).sort((a,b) => Math.abs(b[1]) - Math.abs(a[1]));
+      shifts.forEach(([cat, pt]) => {
+        html += '<div style="margin-top:4px;">' + cat.slice(0,110) + ': <span class="delta-badge">' + (pt > 0 ? '+' : '') + pt + ' pt</span></div>';
+      });
+      box.innerHTML = html;
+    }
+  }
+
+  // ---- Open-ended "What does Zionism mean to you?" : word cloud + rudimentary sentiment ----
+  const SENT_LEVELS = ['Positive','Neutral','Negative'];
+  const SENT_COLORS = [
+    { css: 'var(--blue)', textDark: false },
+    { css: 'var(--neutral-mid)', textDark: true },
+    { css: 'var(--red)', textDark: false },
+  ];
+
+  function renderTextQuestion() {
+    document.getElementById('qMeta').innerHTML =
+      '<b>What does Zionism mean to you?</b> &middot; open-ended (5&ndash;10 word) response &middot; ' +
+      'word cloud (frequency &rarr; size/darkness) + rudimentary bag-of-words sentiment (Bing lexicon). ' +
+      '<br><span style="color:var(--text-muted)">Caveat: this is a literal word-count method with no understanding of context, negation, or ' +
+      'domain meaning &mdash; e.g. "support" and "right" (as in "support for a state" / "right to self-determination") get tagged ' +
+      '<i>positive</i> even when used purely descriptively, not as an endorsement or emotional judgment. Treat the sentiment split as a rough, ' +
+      'inspectable signal, not a validated measure &mdash; the driving words are listed under each panel so you can judge for yourself.</span>';
+
+    renderLegend(SENT_LEVELS, SENT_COLORS, false);
+
+    renderTextPanelGroup('panels', GROUPINGS);
+    renderTextPanelGroup('panelsEra', GROUPINGS_ERA);
+    document.getElementById('findingsBox').innerHTML = '';
+    renderTextTable();
+  }
+
+  function wordCloudHTML(wordFreq) {
+    const entries = Object.entries(wordFreq || {});
+    if (entries.length === 0) return '<div class="cloud-empty">not enough text this wave</div>';
+    const max = Math.max(...entries.map(e => e[1]));
+    const min = Math.min(...entries.map(e => e[1]));
+    let html = '<div class="cloud">';
+    entries.forEach(([word, count]) => {
+      const t = max === min ? 1 : (count - min) / (max - min); // 0..1
+      const fontSize = 11 + Math.round(21 * t);
+      const opacity = 0.55 + 0.45 * t;
+      html += '<span class="cloud-word" style="font-size:' + fontSize + 'px;color:color-mix(in srgb, var(--blue) ' +
+        Math.round(opacity * 100) + '%, var(--text-secondary));" title="' + word + ': ' + count + '">' + word + '</span>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function sentimentBarHTML(sentiment) {
+    if (!sentiment || !sentiment.n) {
+      return '<div class="bar" style="opacity:.35;"><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:var(--text-muted);">not asked this wave</div></div>';
+    }
+    const total = sentiment.n;
+    let html = '<div class="bar">';
+    SENT_LEVELS.forEach((lv, i) => {
+      const cnt = (sentiment.counts && sentiment.counts[lv]) || 0;
+      if (cnt === 0) return;
+      const pct = 100 * cnt / total;
+      html += '<div class="seg" style="width:' + pct + '%;background:' + SENT_COLORS[i].css + ';">' +
+        (pct > 9 ? '<span class="seg-label' + (SENT_COLORS[i].textDark ? ' dark-text' : '') + '">' + fmtPct(pct) + '</span>' : '') +
+        '</div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function sentimentCaptionHTML(sentiment) {
+    if (!sentiment || !sentiment.n) return '';
+    const pos = Object.entries(sentiment.top_positive_words || {}).slice(0,5).map(([w,n]) => w + ' (' + n + ')').join(', ');
+    const neg = Object.entries(sentiment.top_negative_words || {}).slice(0,5).map(([w,n]) => w + ' (' + n + ')').join(', ');
+    let html = 'avg net score ' + (sentiment.avg_net_score > 0 ? '+' : '') + sentiment.avg_net_score.toFixed(2);
+    if (pos) html += ' &middot; +tagged: ' + pos;
+    if (neg) html += ' &middot; -tagged: ' + neg;
+    return '<div class="sentiment-caption">' + html + '</div>';
+  }
+
+  function renderTextPanelGroup(containerId, groupingsList) {
+    const panelsEl = document.getElementById(containerId);
+    panelsEl.innerHTML = '';
+    groupingsList.forEach(g => {
+      const panel = document.createElement('div');
+      panel.className = 'panel';
+      const h2 = document.createElement('h2');
+      h2.textContent = g.title;
+      panel.appendChild(h2);
+      const nNote = document.createElement('div');
+      nNote.className = 'n-note';
+      nNote.textContent = 'enrollments per wave: ' + nSummary[g.key].join(' / ');
+      panel.appendChild(nNote);
+
+      WAVES.forEach(w => {
+        const gdata = ZIONISM_TEXT[g.key] && ZIONISM_TEXT[g.key][w];
+        const row = document.createElement('div');
+        row.className = 'wave-row';
+        const labelRow = document.createElement('div');
+        labelRow.className = 'wave-label-row';
+        labelRow.innerHTML = '<span class="wave-label">' + WAVE_NAMES[w] + '</span>' +
+          '<span class="wave-n">n=' + ((gdata && gdata.n) || 0) + '</span>';
+        row.appendChild(labelRow);
+
+        const wrap = document.createElement('div');
+        wrap.innerHTML = sentimentBarHTML(gdata && gdata.sentiment) +
+          sentimentCaptionHTML(gdata && gdata.sentiment) +
+          wordCloudHTML(gdata && gdata.word_freq);
+        row.appendChild(wrap);
+        panel.appendChild(row);
+      });
+
+      panelsEl.appendChild(panel);
+    });
+  }
+
+  function renderTextTable() {
+    const wrap = document.getElementById('tableWrap');
+    let html = '<table class="data-table"><thead><tr><th>Grouping</th><th>Wave</th><th>n</th><th>Positive</th><th>Neutral</th><th>Negative</th><th>Avg net score</th></tr></thead><tbody>';
+    ALL_GROUPINGS.forEach(g => {
+      WAVES.forEach(w => {
+        const gdata = ZIONISM_TEXT[g.key] && ZIONISM_TEXT[g.key][w];
+        const s = gdata && gdata.sentiment;
+        html += '<tr><td>' + g.title + '</td><td>' + w + '</td><td>' + ((gdata && gdata.n) || 0) + '</td>';
+        if (s && s.n) {
+          html += '<td>' + (s.counts.Positive || 0) + ' (' + fmtPct(s.pct_positive) + ')</td>' +
+            '<td>' + (s.counts.Neutral || 0) + '</td>' +
+            '<td>' + (s.counts.Negative || 0) + ' (' + fmtPct(s.pct_negative) + ')</td>' +
+            '<td>' + (s.avg_net_score > 0 ? '+' : '') + s.avg_net_score.toFixed(2) + '</td>';
+        } else {
+          html += '<td colspan="4">—</td>';
+        }
+        html += '</tr>';
+      });
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+  }
+
+  qSelect.addEventListener('change', () => render(qSelect.value));
+
+  // header stats
+  document.getElementById('totalRespondents').textContent = '123';
+  document.getElementById('totalEnrollments').textContent = '133';
+
+  // init
+  qSelect.value = 'O_RIGHT_EXIST';
+  render('O_RIGHT_EXIST');
+})();
+</script>

@@ -1,0 +1,38 @@
+"raw_text","qid","label","category","qtype","ordinal","levels"
+"How do you identify ethnically? _______","D_ETHNICITY","Ethnic identity (open text)","DEMO","FIB",FALSE,NA
+"How do you identify nationally? _______","D_NATIONALITY","National identity (open text)","DEMO","FIB",FALSE,NA
+"How do you identify religiously? _______","D_RELIGION","Religious identity (open text)","DEMO","FIB",FALSE,NA
+"Are you currently an active member of a religious community? If so, which one. (If not, respond no). _______","D_RELIGIOUS_MEMBER","Active member of religious community (open text)","DEMO","FIB",FALSE,NA
+"What gender do you identify with?","D_GENDER","Gender","DEMO","MC",FALSE,NA
+"When forming personal opinions, how often do you draw on the following sources for guidance (mark all that you consider correct)","D_PERSONAL_OPINION_SOURCES","Sources for personal opinions (multi-select)","DEMO","M-S",FALSE,NA
+"When forming political opinions, how often do you draw on the following sources for guidance (mark all that you consider correct)","D_POLITICAL_OPINION_SOURCES","Sources for political opinions (multi-select)","DEMO","M-S",FALSE,NA
+"How included do you feel in you ethnic community?","D_INCLUDE_ETHNIC","Feel included in ethnic community","DEMO","MC",TRUE,"Very included|Somewhat included|Neither included nor excluded|Somewhat excluded|Very excluded"
+"How included do you feel in your national community?","D_INCLUDE_NATIONAL","Feel included in national community","DEMO","MC",TRUE,"Very included|Somewhat included|Neither included nor excluded|Somewhat excluded|Very excluded"
+"How included do you feel in your religious community?","D_INCLUDE_RELIGIOUS","Feel included in religious community","DEMO","MC",TRUE,"Very included|Somewhat included|Neither included nor excluded|Somewhat excluded|Very excluded"
+"Have you voted?","D_VOTED","Have voted","DEMO","MC",FALSE,NA
+"Do you consider yourself","D_IDEOLOGY","Political ideology","DEMO","MC",FALSE,NA
+"On the issue of the Israeli-Palestinian conflict, do you feel","O_INFORMED","Feel informed about ISPA conflict","CORE","MC",TRUE,"Very informed|Informed|Somewhat informed|Somewhat uninformed|Uninformed|Very uninformed"
+"Your main sources of information on the ISPA conflict prior to the class are?","O_INFO_SOURCES","Main info sources on ISPA conflict (multi-select)","CORE","MC",FALSE,NA
+"Do you believe the US support for Israel should be:","O_SUPPORT_ISRAEL","US support for Israel should be","CORE","MC",TRUE,"Increased|Stay the same|Decreased"
+"Do you believe the US support for Palestinian should be","O_SUPPORT_PALESTINIANS","US support for Palestinians should be","CORE","MC",TRUE,"Increased|Stay the same|Decreased"
+"Do you believe the US support for Palestinians should be","O_SUPPORT_PALESTINIANS","US support for Palestinians should be","CORE","MC",TRUE,"Increased|Stay the same|Decreased"
+"People often talk about being ""pro-Israel"". Do you think someone can be critical of Israeli government policies and still be ""pro-Israel""?","O_PROISRAEL_CRITIQUE","Can be critical of Israeli govt and still pro-Israel","CORE","MC",FALSE,NA
+"In your opinion, which of the following would be the best resolution of the Israeli -Palestinian conflict?","O_RESOLUTION","Best resolution of ISPA conflict","CORE","MC",FALSE,NA
+"How concerned are you about antisemitism in the US?","O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","CORE","MC",TRUE,"Very concerned|Somewhat concerned|Neutral|Not too concerned|Not at all concerned"
+"How concerned are you about Islamophobia in the US?","O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","CORE","MC",TRUE,"Very concerned|Somewhat concerned|Neutral|Not too concerned|Not at all concerned"
+"Do you agree or disagree with the following statement: Israel doesn't have the right to exist.","O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","CORE","MC",TRUE,"Strongly agree|Somewhat agree|Neutral|Somewhat disagree|Strongly disagree"
+"Do you agree or disagree with the following statement: Israel is an apartheid state.","O_APARTHEID","Agree: Israel is an apartheid state","CORE","MC",TRUE,"Strongly agree|Somewhat agree|Neutral|Somewhat disagree|Strongly disagree"
+"Do you agree or disagree with the following statement: Israel's treatment of Palestinian is similar to racism in the US","O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","CORE","MC",TRUE,"Strongly agree|Somewhat agree|Neutral|Somewhat disagree|Strongly disagree"
+"Do you agree or disagree with the following statement: Israel is committing genocide against the Palestinians","O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","CORE","MC",TRUE,"Strongly agree|Somewhat agree|Neutral|Somewhat disagree|Strongly disagree"
+"What does Zionism mean to you (5-10 word response)","O_ZIONISM_MEANING","What Zionism means to you (open text)","CORE","SA",FALSE,NA
+"According to the following definition of Zionism, are you a Zionist? Zionism means a feeling of attachment to Israel","P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","REPEAT","MC",TRUE,"Definitely|Probably|Neutral|Probably not|Definitely not"
+"According to the following definition of Zionism, are you a Zionist? Zionism means a belief in a Jewish and democratic state","P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","REPEAT","MC",TRUE,"Definitely|Probably|Neutral|Probably not|Definitely not"
+"According to the following definition of Zionism, are you a Zionist? Zionism means the belief in privileging Jewish rights over non-Jewish rights in Israel","P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","REPEAT","MC",TRUE,"Definitely|Probably|Neutral|Probably not|Definitely not"
+"Do you support or oppose the U.S. providing the same amount of financial aid that it gives Israel, but restricting it so that Israel cannot spend U.S. aid on expanding settlements in the West Bank?","P_AID_RESTRICT","Support conditioning Israel aid on settlements","REPEAT","MC",TRUE,"Strongly support|Somewhat support|Neither support nor oppose|Somewhat oppose|Strongly oppose"
+"Compared with your own position on the Israeli-Palestinian conflict, how would you describe the Biden Administration's position?","B_BIDEN_COMPARE","Biden admin position vs own position","BASELINE","MC",FALSE,NA
+"Do you have a favorable opinion towards the Israeli government","B_FAV_ISRAELI_GOVT","Favorable opinion of Israeli government","BASELINE","MC",FALSE,NA
+"Do you have a favorable opinion towards the Israeli people?","B_FAV_ISRAELI_PEOPLE","Favorable opinion of Israeli people","BASELINE","MC",FALSE,NA
+"Do you have a favorable opinion towards the Palestinian government","B_FAV_PALESTINIAN_GOVT","Favorable opinion of Palestinian government","BASELINE","MC",FALSE,NA
+"Do you have a favorable opinion towards the Palestinian people?","B_FAV_PALESTINIAN_PEOPLE","Favorable opinion of Palestinian people","BASELINE","MC",FALSE,NA
+"Do you support the BDS movement","B_BDS_SUPPORT","Support the BDS movement","BASELINE","MC",TRUE,"Strongly support|Somewhat support|Don't know|Somewhat oppose|Strongly oppose"
+"Have you heard about the Boycott, Divest, Sanction (BDS) movement against Israel?","B_BDS_HEARD","Heard of BDS movement","BASELINE","MC",TRUE,"A lot|Some|Not much|Nothing at all"

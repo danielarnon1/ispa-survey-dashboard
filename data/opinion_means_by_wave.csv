@@ -1,0 +1,196 @@
+"qid","label","grouping","wave","n","mean_level"
+"O_APARTHEID","Agree: Israel is an apartheid state","ALL","I",123,2.728
+"O_APARTHEID","Agree: Israel is an apartheid state","ALL","II",111,2.589
+"O_APARTHEID","Agree: Israel is an apartheid state","ALL","III",92,2.576
+"O_APARTHEID","Agree: Israel is an apartheid state","POL441","I",76,2.782
+"O_APARTHEID","Agree: Israel is an apartheid state","POL441","II",67,2.75
+"O_APARTHEID","Agree: Israel is an apartheid state","POL441","III",48,2.75
+"O_APARTHEID","Agree: Israel is an apartheid state","POL416","I",47,2.638
+"O_APARTHEID","Agree: Israel is an apartheid state","POL416","II",44,2.341
+"O_APARTHEID","Agree: Israel is an apartheid state","POL416","III",44,2.386
+"O_APARTHEID","Agree: Israel is an apartheid state","PRE_OCT7","I",64,2.656
+"O_APARTHEID","Agree: Israel is an apartheid state","PRE_OCT7","II",58,2.5
+"O_APARTHEID","Agree: Israel is an apartheid state","PRE_OCT7","III",43,2.512
+"O_APARTHEID","Agree: Israel is an apartheid state","POST_OCT7","I",59,2.803
+"O_APARTHEID","Agree: Israel is an apartheid state","POST_OCT7","II",53,2.685
+"O_APARTHEID","Agree: Israel is an apartheid state","POST_OCT7","III",49,2.633
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","ALL","I",121,1.975
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","ALL","II",110,1.991
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","ALL","III",95,1.948
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POL441","I",75,2
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POL441","II",66,1.939
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POL441","III",51,1.981
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POL416","I",46,1.935
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POL416","II",44,2.068
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POL416","III",44,1.909
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","PRE_OCT7","I",64,2.062
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","PRE_OCT7","II",58,2.017
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","PRE_OCT7","III",43,2.116
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POST_OCT7","I",57,1.877
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POST_OCT7","II",52,1.962
+"O_CONCERN_ANTISEMITISM","Concern about antisemitism in US","POST_OCT7","III",52,1.815
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","ALL","I",121,1.793
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","ALL","II",111,1.812
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","ALL","III",95,1.938
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POL441","I",75,1.8
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POL441","II",67,1.882
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POL441","III",51,1.981
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POL416","I",46,1.783
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POL416","II",44,1.705
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POL416","III",44,1.886
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","PRE_OCT7","I",64,1.766
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","PRE_OCT7","II",58,1.707
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","PRE_OCT7","III",43,1.884
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POST_OCT7","I",57,1.825
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POST_OCT7","II",53,1.926
+"O_CONCERN_ISLAMOPHOBIA","Concern about Islamophobia in US","POST_OCT7","III",52,1.981
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","ALL","I",124,2.833
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","ALL","II",111,2.688
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","ALL","III",94,2.695
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POL441","I",76,2.961
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POL441","II",67,2.882
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POL441","III",50,2.941
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POL416","I",48,2.633
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POL416","II",44,2.386
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POL416","III",44,2.409
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","PRE_OCT7","I",66,3.179
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","PRE_OCT7","II",59,2.95
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","PRE_OCT7","III",43,3.093
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POST_OCT7","I",58,2.441
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POST_OCT7","II",52,2.385
+"O_GENOCIDE","Agree: Israel is committing genocide against Palestinians","POST_OCT7","III",51,2.365
+"O_INFORMED","Feel informed about ISPA conflict","ALL","I",124,3.157
+"O_INFORMED","Feel informed about ISPA conflict","ALL","II",112,2.211
+"O_INFORMED","Feel informed about ISPA conflict","ALL","III",96,1.737
+"O_INFORMED","Feel informed about ISPA conflict","POL441","I",76,3.247
+"O_INFORMED","Feel informed about ISPA conflict","POL441","II",67,2.162
+"O_INFORMED","Feel informed about ISPA conflict","POL441","III",52,1.6
+"O_INFORMED","Feel informed about ISPA conflict","POL416","I",48,3.02
+"O_INFORMED","Feel informed about ISPA conflict","POL416","II",45,2.283
+"O_INFORMED","Feel informed about ISPA conflict","POL416","III",44,1.909
+"O_INFORMED","Feel informed about ISPA conflict","PRE_OCT7","I",66,3.368
+"O_INFORMED","Feel informed about ISPA conflict","PRE_OCT7","II",58,2.172
+"O_INFORMED","Feel informed about ISPA conflict","PRE_OCT7","III",43,1.744
+"O_INFORMED","Feel informed about ISPA conflict","POST_OCT7","I",58,2.915
+"O_INFORMED","Feel informed about ISPA conflict","POST_OCT7","II",54,2.25
+"O_INFORMED","Feel informed about ISPA conflict","POST_OCT7","III",53,1.732
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","ALL","I",126,2.854
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","ALL","II",112,2.825
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","ALL","III",94,2.621
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POL441","I",77,2.987
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POL441","II",68,3
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POL441","III",50,2.765
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POL416","I",49,2.647
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POL416","II",44,2.545
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POL416","III",44,2.455
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","PRE_OCT7","I",67,2.783
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","PRE_OCT7","II",58,2.81
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","PRE_OCT7","III",43,2.628
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POST_OCT7","I",59,2.934
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POST_OCT7","II",54,2.839
+"O_RACISM_SIMILAR","Agree: Israel's treatment of Palestinians similar to US racism","POST_OCT7","III",51,2.615
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","ALL","I",122,4.452
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","ALL","II",111,4.48
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","ALL","III",94,4.432
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POL441","I",76,4.414
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POL441","II",67,4.534
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POL441","III",50,4.478
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POL416","I",46,4.514
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POL416","II",44,4.4
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POL416","III",44,4.371
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","PRE_OCT7","I",64,4.34
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","PRE_OCT7","II",58,4.48
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","PRE_OCT7","III",43,4.231
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POST_OCT7","I",58,4.565
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POST_OCT7","II",53,4.479
+"O_RIGHT_EXIST","Agree: Israel doesn't have the right to exist","POST_OCT7","III",51,4.619
+"O_SUPPORT_ISRAEL","US support for Israel should be","ALL","I",122,2.363
+"O_SUPPORT_ISRAEL","US support for Israel should be","ALL","II",110,2.464
+"O_SUPPORT_ISRAEL","US support for Israel should be","ALL","III",93,2.505
+"O_SUPPORT_ISRAEL","US support for Israel should be","POL441","I",75,2.447
+"O_SUPPORT_ISRAEL","US support for Israel should be","POL441","II",66,2.439
+"O_SUPPORT_ISRAEL","US support for Israel should be","POL441","III",49,2.388
+"O_SUPPORT_ISRAEL","US support for Israel should be","POL416","I",47,2.229
+"O_SUPPORT_ISRAEL","US support for Israel should be","POL416","II",44,2.5
+"O_SUPPORT_ISRAEL","US support for Israel should be","POL416","III",44,2.636
+"O_SUPPORT_ISRAEL","US support for Israel should be","PRE_OCT7","I",64,2.4
+"O_SUPPORT_ISRAEL","US support for Israel should be","PRE_OCT7","II",58,2.5
+"O_SUPPORT_ISRAEL","US support for Israel should be","PRE_OCT7","III",43,2.581
+"O_SUPPORT_ISRAEL","US support for Israel should be","POST_OCT7","I",58,2.322
+"O_SUPPORT_ISRAEL","US support for Israel should be","POST_OCT7","II",52,2.423
+"O_SUPPORT_ISRAEL","US support for Israel should be","POST_OCT7","III",50,2.44
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","ALL","I",123,1.643
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","ALL","II",111,1.545
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","ALL","III",93,1.419
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POL441","I",74,1.689
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POL441","II",67,1.676
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POL441","III",49,1.551
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POL416","I",49,1.577
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POL416","II",44,1.341
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POL416","III",44,1.273
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","PRE_OCT7","I",66,1.652
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","PRE_OCT7","II",59,1.633
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","PRE_OCT7","III",43,1.419
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POST_OCT7","I",57,1.632
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POST_OCT7","II",52,1.442
+"O_SUPPORT_PALESTINIANS","US support for Palestinians should be","POST_OCT7","III",50,1.42
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","ALL","I",17,3
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","ALL","II",113,2.526
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","ALL","III",94,2.347
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POL441","I",17,3
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POL441","II",69,2.611
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POL441","III",50,2.275
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POL416","I",0,
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POL416","II",44,2.386
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POL416","III",44,2.432
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","PRE_OCT7","I",17,3
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","PRE_OCT7","II",59,2.567
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","PRE_OCT7","III",43,2.535
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POST_OCT7","I",0,
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POST_OCT7","II",54,2.482
+"P_AID_RESTRICT","Support conditioning Israel aid on settlements","POST_OCT7","III",51,2.192
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","ALL","I",17,3.765
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","ALL","II",110,3.673
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","ALL","III",95,3.691
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POL441","I",17,3.765
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POL441","II",66,3.515
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POL441","III",51,3.396
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POL416","I",0,
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POL416","II",44,3.909
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POL416","III",44,4.045
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","PRE_OCT7","I",17,3.765
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","PRE_OCT7","II",58,3.707
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","PRE_OCT7","III",43,3.674
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POST_OCT7","I",0,
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POST_OCT7","II",52,3.635
+"P_ZION_ATTACHMENT","Zionist per 'attachment to Israel' definition","POST_OCT7","III",52,3.704
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","ALL","I",17,2.941
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","ALL","II",113,2.922
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","ALL","III",93,2.978
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POL441","I",17,2.941
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POL441","II",68,2.757
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POL441","III",49,2.959
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POL416","I",0,
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POL416","II",45,3.174
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POL416","III",44,3
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","PRE_OCT7","I",17,2.941
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","PRE_OCT7","II",59,2.883
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","PRE_OCT7","III",43,3.047
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POST_OCT7","I",0,
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POST_OCT7","II",54,2.964
+"P_ZION_JEWISH_DEM_STATE","Zionist per 'Jewish and democratic state' definition","POST_OCT7","III",50,2.92
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","ALL","I",17,4.353
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","ALL","II",110,4.373
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","ALL","III",93,4.372
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POL441","I",17,4.353
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POL441","II",66,4.303
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POL441","III",49,4.32
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POL416","I",0,
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POL416","II",44,4.477
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POL416","III",44,4.432
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","PRE_OCT7","I",17,4.353
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","PRE_OCT7","II",58,4.362
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","PRE_OCT7","III",43,4.419
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POST_OCT7","I",0,
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POST_OCT7","II",52,4.385
+"P_ZION_PRIVILEGE","Zionist per 'privileging Jewish rights' definition","POST_OCT7","III",50,4.333
