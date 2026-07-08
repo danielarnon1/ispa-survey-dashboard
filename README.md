@@ -16,6 +16,11 @@ POL 416 (Spring 2023, 2024). Each course ran three survey waves per term
 - A word cloud + rudimentary bag-of-words sentiment analysis (Bing lexicon)
   of the open-ended "What does Zionism mean to you?" responses, sliced the
   same two ways.
+- A third cut, by **opinion strength**: for each opinion-scale question with a
+  genuine neutral midpoint, what share of students start with a strong /
+  moderate / no opinion, and — matching each student's starting-wave answer to
+  their own later-wave answer — where each of those groups ends up (do the
+  "strong" ones stay put? which direction do the "neutral" ones move?).
 
 ## Data & privacy
 
@@ -39,7 +44,7 @@ and are not published anywhere.
 
 ## Reproducing the pipeline
 
-Run `scripts/01_parse.R` through `06_zionism_text.R` in order against your own
+Run `scripts/01_parse.R` through `07_opinion_shift.R` in order against your own
 local copy of the raw survey export CSVs (point `survey_dir` in
 `01_parse.R` at them — they're not included here). Requires R with
 `dplyr`, `readxl`, `jsonlite`, and `tidytext`.
