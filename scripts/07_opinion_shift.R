@@ -120,9 +120,18 @@ analyze_question <- function(qid, sub_all) {
     started_moderate <- if (n_levels >= 5)
       mk_outcome("Moderate", c("polarized","stayed","neutralized"), c("Polarized","Stayed moderate","Moved to neutral"))
       else NULL
-    started_neutral <- mk_outcome("Neutral", c("stayed","sideA","sideB"),
-                                   c("Stayed neutral", paste0("Moved toward ", levels_order[1]),
-                                     paste0("Moved toward ", levels_order[n_levels])))
+
+    # started_neutral: full outcome distribution (all n_levels categories, not
+    # collapsed to just "moved toward a pole") for respondents who began at the
+    # exact center -- this is dist_of() restricted to that subgroup, so it uses
+    # the same level order/labels as start_dist/outcome_dist above.
+    neutral_sub <- m[m$start_bucket == "Neutral", ]
+    n_neutral <- nrow(neutral_sub)
+    started_neutral <- if (n_neutral == 0) list(n = 0, counts = list(), pct = list()) else {
+      cnt <- dist_of(neutral_sub$outcome)
+      list(n = n_neutral, counts = cnt,
+           pct = as.list(setNames(round(100 * unlist(cnt) / n_neutral, 1), names(cnt))))
+    }
 
     by_group[[gname]] <- list(n = n_total, composition = composition,
                                started_strong = started_strong,
