@@ -58,9 +58,12 @@ analyze_question <- function(qid, sub_all) {
     s <- sub_g[sub_g$wave == sw, c("enrollment_id","answer_level")]; names(s)[2] <- "start"
     m <- s
     m$outcome <- NA_real_
+    m$outcome_wave <- NA_character_
     for (ow in outcome_waves) {
       o <- sub_g[sub_g$wave == ow, c("enrollment_id","answer_level")]; names(o)[2] <- "cand"
       m <- merge(m, o, by = "enrollment_id", all.x = TRUE)
+      newly_filled <- is.na(m$outcome) & !is.na(m$cand)
+      m$outcome_wave[newly_filled] <- ow
       m$outcome <- ifelse(is.na(m$outcome), m$cand, m$outcome)
       m$cand <- NULL
     }
@@ -69,9 +72,21 @@ analyze_question <- function(qid, sub_all) {
     n_total <- nrow(m)
     if (n_total == 0) {
       by_group[[gname]] <- list(n = 0, composition = list(), started_strong = NULL,
-                                 started_moderate = NULL, started_neutral = NULL)
+                                 started_moderate = NULL, started_neutral = NULL,
+                                 start_dist = list(), outcome_dist = list(), outcome_wave_counts = list())
       next
     }
+
+    # full distribution (all levels, not lumped) at start and at outcome, for the
+    # matched sample -- this is the panel histogram the dashboard shows directly,
+    # with Neutral in its natural center position (levels_order already centers it)
+    dist_of <- function(vals) {
+      tab <- table(factor(vals, levels = seq_len(n_levels)))
+      as.list(setNames(as.integer(tab), levels_order))
+    }
+    start_dist <- list(n = n_total, counts = dist_of(m$start))
+    outcome_dist <- list(n = n_total, counts = dist_of(m$outcome))
+    outcome_wave_counts <- as.list(table(m$outcome_wave))
 
     sc <- mapply(classify, m$start, n_levels, SIMPLIFY = FALSE)
     oc <- mapply(classify, m$outcome, n_levels, SIMPLIFY = FALSE)
@@ -112,7 +127,9 @@ analyze_question <- function(qid, sub_all) {
     by_group[[gname]] <- list(n = n_total, composition = composition,
                                started_strong = started_strong,
                                started_moderate = started_moderate,
-                               started_neutral = started_neutral)
+                               started_neutral = started_neutral,
+                               start_dist = start_dist, outcome_dist = outcome_dist,
+                               outcome_wave_counts = outcome_wave_counts)
   }
 
   list(label = qrow$label, category = qrow$category, start_wave = sw,
