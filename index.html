@@ -183,6 +183,12 @@
   <div class="panels" id="panels"></div>
 
   <h2 class="section-title">Second cut: before vs. after Oct 7, 2023</h2>
+  <div class="controls">
+    <div class="control-group">
+      <label for="qSelect2">Opinion question</label>
+      <select id="qSelect2"></select>
+    </div>
+  </div>
   <p class="qmeta">
     Same question, spliced a different way — by <b>when the class was taught</b>
     rather than which class. "Before" pools Fall 2021, Fall 2022, Spring 2023
@@ -200,6 +206,12 @@
   </details>
 
   <h2 class="section-title">Third cut: opinion strength &amp; shift over the semester</h2>
+  <div class="controls">
+    <div class="control-group">
+      <label for="qSelect3">Opinion question</label>
+      <select id="qSelect3"></select>
+    </div>
+  </div>
   <p class="qmeta">
     A different kind of split: not by class or by era, but by <b>each student's own answer,
     matched across time</b>. Only applies to opinion-scale questions with a genuine neutral
@@ -275,26 +287,33 @@
     { label: 'Informedness & concern', qids: ['O_INFORMED','O_INFO_SOURCES','O_CONCERN_ANTISEMITISM','O_CONCERN_ISLAMOPHOBIA'] },
   ];
 
-  const qSelect = document.getElementById('qSelect');
-  GROUPS.forEach(g => {
-    const og = document.createElement('optgroup');
-    og.label = g.label;
-    g.qids.forEach(qid => {
-      if (!questions[qid]) return;
-      const opt = document.createElement('option');
-      opt.value = qid;
-      opt.textContent = questions[qid].label;
-      og.appendChild(opt);
+  function populateQuestionSelect(selectEl) {
+    GROUPS.forEach(g => {
+      const og = document.createElement('optgroup');
+      og.label = g.label;
+      g.qids.forEach(qid => {
+        if (!questions[qid]) return;
+        const opt = document.createElement('option');
+        opt.value = qid;
+        opt.textContent = questions[qid].label;
+        og.appendChild(opt);
+      });
+      selectEl.appendChild(og);
     });
-    qSelect.appendChild(og);
-  });
-  const ogText = document.createElement('optgroup');
-  ogText.label = 'Open-ended';
-  const optText = document.createElement('option');
-  optText.value = TEXT_QID;
-  optText.textContent = 'What Zionism means to you (word cloud + sentiment)';
-  ogText.appendChild(optText);
-  qSelect.appendChild(ogText);
+    const ogText = document.createElement('optgroup');
+    ogText.label = 'Open-ended';
+    const optText = document.createElement('option');
+    optText.value = TEXT_QID;
+    optText.textContent = 'What Zionism means to you (word cloud + sentiment)';
+    ogText.appendChild(optText);
+    selectEl.appendChild(ogText);
+  }
+
+  const qSelect = document.getElementById('qSelect');
+  const qSelect2 = document.getElementById('qSelect2');
+  const qSelect3 = document.getElementById('qSelect3');
+  const ALL_Q_SELECTS = [qSelect, qSelect2, qSelect3];
+  ALL_Q_SELECTS.forEach(populateQuestionSelect);
 
   const GROUPINGS = [
     { key: 'ALL', title: 'Both classes combined' },
@@ -877,7 +896,13 @@
   }
   renderShiftSummaryTable();
 
-  qSelect.addEventListener('change', () => render(qSelect.value));
+  // all three selectors (top, second cut, third cut) stay in sync -- changing
+  // any one updates the others and re-renders the whole page for that question
+  function onQuestionChange(qid) {
+    ALL_Q_SELECTS.forEach(el => { if (el.value !== qid) el.value = qid; });
+    render(qid);
+  }
+  ALL_Q_SELECTS.forEach(el => el.addEventListener('change', () => onQuestionChange(el.value)));
 
   // header stats
   document.getElementById('totalRespondents').textContent = '123';
@@ -888,7 +913,6 @@
   // zero Wave I "Neutral" respondents in every grouping (a real feature of the
   // data, not a bug), which made the "Started neutral" bars in the third
   // section look broken/empty on first load.
-  qSelect.value = 'O_APARTHEID';
-  render('O_APARTHEID');
+  onQuestionChange('O_APARTHEID');
 })();
 </script>
