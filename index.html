@@ -884,7 +884,11 @@
   document.getElementById('totalEnrollments').textContent = '133';
 
   // init
-  qSelect.value = 'O_RIGHT_EXIST';
-  render('O_RIGHT_EXIST');
+  // default question: O_APARTHEID rather than O_RIGHT_EXIST -- the latter has
+  // zero Wave I "Neutral" respondents in every grouping (a real feature of the
+  // data, not a bug), which made the "Started neutral" bars in the third
+  // section look broken/empty on first load.
+  qSelect.value = 'O_APARTHEID';
+  render('O_APARTHEID');
 })();
 </script>
